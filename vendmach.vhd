@@ -296,8 +296,6 @@ begin
 				when S14 =>
 					if Restock = '1' then
 					Cstate <= S14;
-					elsif Ni = 0 or Dimei = 0 then
-					Cstate <= S13;
 					else 
 					Cstate <= S0;
 					end if;
@@ -311,6 +309,7 @@ begin
 
 Outputs: Process(Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return)
 begin
+	Count <= 0;
 	case Cstate is
 		when S0 =>
 			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';

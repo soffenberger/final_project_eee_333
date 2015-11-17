@@ -1,0 +1,13 @@
+git clone "https://github.com/soffenberger/final_project_eee_333.git"  --- clone the public to your computer only do once
+
+
+
+
+git pull                              -- Update your local repository
+
+git add .                               -- Add your files
+git commit -m "Write what you changed"   -- Commit your changes
+git push                              -- Push the changes back to the public repository
+
+
+

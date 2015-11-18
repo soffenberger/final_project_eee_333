@@ -58,9 +58,9 @@ entity VendMachine is
 Port( Nickel, Dime, Quarter, Coin_Return, Restock: in std_logic;
 		VendA, VendB, VendC, VendD, Clock			 : in std_logic;
 		Toggle_Hex1, Toggle_Hex2, Toggle_Hex3      : in std_logic;
-		anode													 : out std_logic_vector(3 downto 0);
-		Seven_segment_out										 : out std_logic_vector(7 downto 0);
-		ProdA, ProdB, ProdC, ProdD						 : out std_logic;
+		AN													 : out std_logic_vector(3 downto 0);
+		Seven_segment_out									: out std_logic_vector(6 downto 0);
+		ProdA, ProdB, ProdC, ProdD, Decimal				 : out std_logic;
 		RNick, RDime, RQuarter, Clock_out			 : out std_logic;
 		MoreCash, SoldOut, LockOut						 : out std_logic);
 end VendMachine;
@@ -77,9 +77,9 @@ END Component;
 
 Component seven_segment is
     Port ( clock : in  STD_LOGIC;
-           sseg  : in  std_logic_vector(31 downto 0);
-			  anode : out STD_LOGIC_VECTOR (3 downto 0);
-			  SS7   : out STD_LOGIC_VECTOR (7 downto 0)
+           sseg  : in  std_logic_vector(27 downto 0);
+			  AN : out STD_LOGIC_VECTOR (3 downto 0);
+			  SS7   : out STD_LOGIC_VECTOR (6 downto 0)
 			  );
 end Component;
 
@@ -90,11 +90,12 @@ signal Ct, Count: integer range 0 to 45;
 signal Ai,Bi,Ci,Di,Ni,Dimei,Qi: integer range 0 to 5;
 signal SLOW_CLK: std_logic;
 signal CLK_DIVIDER: std_logic_vector(27 downto 0) := x"0000000";
-signal full_seven_segment: STD_LOGIC_vector ( 31 downto 0);
+signal full_seven_segment: STD_LOGIC_vector ( 27 downto 0);
 
 
 begin
 
+Decimal<='1';
 CLK_DIVISION: process(Clock, CLK_DIVIDER)
 
 begin
@@ -108,7 +109,7 @@ end process;
 nick_deb: DEBOUNCE PORT MAP (SLOW_CLK, Nickel, Np);
 quart_deb: DEBOUNCE PORT MAP (SLOW_CLK, Quarter, Qp);
 dime_deb: DEBOUNCE PORT MAP (SLOW_CLK, Dime, Dp);
-display: seven_segment PORT MAP (SLOW_CLK, full_seven_segment, anode, Seven_segment_out);
+display: seven_segment PORT MAP (Clock, full_seven_segment, AN, Seven_segment_out);
 
 Transitions: process (Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,SLOW_CLK)
 begin
@@ -309,7 +310,7 @@ begin
 
 Outputs: Process(Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return)
 begin
-	Count <= 0;
+--	Count <= 0;
 	case Cstate is
 		when S0 =>
 			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
@@ -515,8 +516,14 @@ begin
 			end case;
 			end process;
 		
-			
-		
+sseg: Process(Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return)
+begin
+		if Cstate = S13 then
+			full_seven_segment <= "1000000100000010000001000000";
+		elsif Cstate = S0 then
+			full_seven_segment <= "1000000100000010000001000000";
+	end if;
+end process;
 
 end Behavioral;
 

@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -o "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment_isim_beh.exe" -prj "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment_beh.prj" "work.seven_segment" 

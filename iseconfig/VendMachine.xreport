@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2015-11-17T11:36:25</DateModified>
+  <DateModified>2015-11-17T20:04:31</DateModified>
   <ModuleName>VendMachine</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
-  <SavedFilePath>C:/Users/soffenbe/Documents/GitHub/final_project_eee_333/iseconfig/VendMachine.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>C:/Users/soffenbe/Documents/GitHub/final_project_eee_333</ImplementationReportsDirectory>
+  <SavedFilePath>C:/Users/Spencer Offenberger/final_project_eee_333/iseconfig/VendMachine.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>C:/Users/Spencer Offenberger/final_project_eee_333\</ImplementationReportsDirectory>
   <DateInitialized>2015-11-17T11:36:25</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>

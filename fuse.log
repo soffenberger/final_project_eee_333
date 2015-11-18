@@ -1,0 +1,16 @@
+Running: C:\Xilinx\14.4\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -o C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment_isim_beh.exe -prj C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment_beh.prj work.seven_segment 
+ISim P.49d (signature 0x7708f090)
+Number of CPUs detected in this system: 4
+Turning on mult-threading, number of parallel sub-compilation jobs: 8 
+Determining compilation order of HDL files
+Parsing VHDL file "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" into library work
+ERROR:HDLCompiler:69 - "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" Line 28: <clk> is not declared.
+ERROR:HDLCompiler:989 - "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" Line 28: Attribute event requires a static signal prefix
+ERROR:HDLCompiler:69 - "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" Line 26: <clk> is not declared.
+ERROR:HDLCompiler:69 - "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" Line 44: <an> is not declared.
+ERROR:HDLCompiler:69 - "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" Line 48: <an> is not declared.
+ERROR:HDLCompiler:69 - "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" Line 52: <an> is not declared.
+ERROR:HDLCompiler:69 - "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" Line 56: <an> is not declared.
+ERROR:HDLCompiler:69 - "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" Line 60: <an> is not declared.
+ERROR:HDLCompiler:854 - "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" Line 16: Unit <behavioral> ignored due to previous errors.
+VHDL file C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd ignored due to errors

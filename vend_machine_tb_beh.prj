@@ -1,0 +1,4 @@
+vhdl work "seven_segment1.vhd"
+vhdl work "debounce.vhd"
+vhdl work "vendmach.vhd"
+vhdl work "vend_machine_tb.vhd"

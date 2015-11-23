@@ -1,8 +1,0 @@
-AR debounce clean_pulse "C:/Users/Spencer Offenberger/final_project_eee_333/debounce.vhd" sub00/vhpl01 1448180210
-AR seven_segment behavioral "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" sub00/vhpl03 1448180212
-AR buff behavioral "C:/Users/Spencer Offenberger/final_project_eee_333/buff.vhd" sub00/vhpl07 1448180214
-EN debounce NULL "C:/Users/Spencer Offenberger/final_project_eee_333/debounce.vhd" sub00/vhpl00 1448180209
-EN seven_segment NULL "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" sub00/vhpl02 1448180211
-AR vendmachine behavioral "C:/Users/Spencer Offenberger/final_project_eee_333/vendmach.vhd" sub00/vhpl05 1448180216
-EN buff NULL "C:/Users/Spencer Offenberger/final_project_eee_333/buff.vhd" sub00/vhpl06 1448180213
-EN vendmachine NULL "C:/Users/Spencer Offenberger/final_project_eee_333/vendmach.vhd" sub00/vhpl04 1448180215

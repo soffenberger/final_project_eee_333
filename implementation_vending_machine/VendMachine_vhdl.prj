@@ -1,0 +1,4 @@
+vhdl work "C:\Users\Spencer Offenberger\implementation_vending_machine\seven_segment1.vhd"
+vhdl work "C:\Users\Spencer Offenberger\implementation_vending_machine\debounce.vhd"
+vhdl work "C:\Users\Spencer Offenberger\implementation_vending_machine\buff.vhd"
+vhdl work "C:\Users\Spencer Offenberger\implementation_vending_machine\vendmach.vhd"

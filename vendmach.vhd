@@ -33,7 +33,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 --Outputs: ------------------------------------------------------------
 --ProdA, ProdB, ProdC, ProdD: Output signal to dispense products.
---RNick, RDime, RQuarter:     Output signal to dispense change.
+--RNick, Ret_Dime, RQuarter:     Output signal to dispense change.
 --MoreCash: LED that turns on when more cash is needed to dispense product chosen.
 --Soldout: LED that turns on when product chosen is sold out.
 --Lockout: Turns on when machine is out of change, must be restocked to turn off.
@@ -55,12 +55,11 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 
 entity VendMachine is
-Port( Nickel, Dime, Quarter, Coin_Return, Restock: in std_logic;
+Port( Nickel, Dime, Quarter, Coin_Return, Restock, reset: in std_logic;
 		VendA, VendB, VendC, VendD, Clock			 : in std_logic;
 		Toggle_Hex1, Toggle_Hex2, Toggle_Hex3      : in std_logic;
 		AN													 : out std_logic_vector(3 downto 0);
 		Seven_segment_out									: out std_logic_vector(6 downto 0);
-		--ProdA, ProdB, ProdC, ProdD, 
 		Decimal				 : out std_logic;
 		RNick, RDime, RQuarter, Clock_out			 : out std_logic;
 		MoreCash, SoldOut, LockOut						 : out std_logic);
@@ -84,16 +83,27 @@ Component seven_segment is
 			  );
 end Component;
 
+Component Buff is port (
+clock: in std_logic;
+input: in integer range 0 to 5;
+bufferOut: out integer range 0 to 5
+); 
+end Component;
+
 type state is (S0,S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12,S13,S14,S15, S16, S17);
-signal Cstate: state:=S0; 
-Signal Np, Dp, Qp, restock_temp: std_logic := '0';
-signal Ct, Count: integer range 0 to 45 := 0;
-signal Ai,Bi,Ci,Di,Ni,Dimei,Qi: integer range 0 to 5 := 5;
+signal Cstate: state; 
+Signal Np, Dp, Qp, restock_temp: std_logic;
+signal Ct: integer range 0 to 45;
+shared variable Count: integer range 0 to 45;
+signal Ai,Bi,Ci,Di,Ni,Dimei,Qi: integer range 0 to 5 :=5;--std_logic_vector(2 downto 0);
+signal Al,Bl,Cl,Dl,Nl,Dimel,Ql: integer range 0 to 5 :=5; --std_logic_vector(2 downto 0):= 5;
 signal SLOW_CLK: std_logic;
-signal CLK_DIVIDER: std_logic_vector(27 downto 0) := x"0000000";
+signal ret_nick, ret_dime, ret_quart: std_logic; 
+signal CLK_DIVIDER: std_logic_vector(24 downto 0);
 signal full_seven_segment: STD_LOGIC_vector ( 27 downto 0);
 signal ProdA, ProdB, ProdC, ProdD : std_logic;
-
+signal timeout : std_logic := '0'; 
+constant five_cons: integer := 5;
 
 begin
 
@@ -115,11 +125,20 @@ restock_deb: DEBOUNCE PORT MAP (SLOW_CLK, Restock, restock_temp);
 quart_deb: DEBOUNCE PORT MAP (SLOW_CLK, Quarter, Qp);
 dime_deb: DEBOUNCE PORT MAP (SLOW_CLK, Dime, Dp);
 display: seven_segment PORT MAP (Clock, full_seven_segment, AN, Seven_segment_out);
+nick_buff: Buff PORT MAP (Clock, Ni, Nl);
+dime_buff: Buff PORT MAP (Clock, Dimei, Dimel);
+quarter_buff: Buff PORT MAP (Clock, Qi, Ql);
+A_buff: Buff PORT MAP (Clock, Ai, Al);
+B_buff: Buff PORT MAP (Clock, Bi, Bl);
+C_buff: Buff PORT MAP (Clock, Ci, Cl);
+D_buff: Buff PORT MAP (Clock, Di, Dl);
 
-Transitions: process (Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,SLOW_CLK)
+Transitions: process (Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,SLOW_CLK, reset, timeout)
 begin
-	if Count = 45 then Cstate <= S16;
-		elsif (SLOW_CLK'event and SLOW_CLK = '1') then
+	if timeout = '1' then Cstate <= S16;
+	elsif reset = '1' then
+		Cstate <= S0;
+	elsif (SLOW_CLK'event and SLOW_CLK = '1') then
 			case Cstate is
 				when S0 => 										-- Ct = 0 Cents
 					if Coin_Return = '1' then
@@ -377,308 +396,268 @@ begin
 					end if;
 					end process;
 
-Outputs: Process(Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return)
+Outputs: Process(Cstate,Np,Dp,Qp,Coin_Return, VendA, VendB, VendC, VendD, reset, Ai, Bi, Ci, Di, Ct, Ni)
 begin
---	Count <= 0;
 	case Cstate is
 		when S0 =>
-			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
 			if (VendA = '1' or VendB = '1' or VendC = '1' or VendD = '1') then
 				MoreCash <= '1';
+			else 
+				MoreCash <= '0';
 			end if;
+			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 		
-		when S1 =>
-			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
+		when S1 => 
 			if (VendA = '1' or VendB = '1' or VendC = '1' or VendD = '1') then
 				MoreCash <= '1';
+			else 
+				MoreCash <= '0';
 			end if;
+			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			
 		when S2 =>
-			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
 			if (VendA = '1' and Ai > 0) then
-			ProdA <= '1';
-			Ai <= Ai - 1;
+				ProdA <= '1'; MoreCash <= '0'; Soldout <= '0';
 			elsif (VendA = '1' and Ai = 0) then
 				Soldout <= '1';
+				ProdA <= '0'; MoreCash <= '0';
 			elsif (VendB = '1' or VendC = '1' or VendD = '1') then
 				MoreCash <= '1';
-			else
-				null;
+				Soldout <= '0'; ProdA <= '0';
+			else 
+				MoreCash <= '0'; Soldout <= '0'; ProdA <= '0';
 			end if;
+			 ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0';  Lockout <= '0';
 			
 		when S3 =>
-			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
 			if (VendA = '1' and Ai > 0) then
-			ProdA <= '1';
-			Ai <= Ai - 1;
+				ProdA <= '1'; Soldout <= '0'; MoreCash <= '0'; ProdB <= '0';
 			elsif (VendA = '1' and Ai = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; MoreCash <= '0';
 			elsif (VendB = '1' and Bi > 0) then
-			ProdB <= '1';
-			Bi<= Bi - 1;
+				ProdB <= '1'; Soldout <= '0';  ProdB <= '0'; MoreCash <= '0';
 			elsif (VendB = '1' and Bi = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; MoreCash <= '0';
 			elsif (VendC = '1' or VendD = '1') then
-				MoreCash <= '1';
+				MoreCash <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0';
 			else
-				null;
+				MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; Soldout <= '0';
 			end if;
+			ProdC <= '0'; ProdD <= '0';
+			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Lockout <= '0';
 			
 		when S4 =>
-			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
 			if (VendA = '1' and Ai > 0) then
-			ProdA <= '1';
-			Ai <= Ai - 1;
+			ProdA <= '1'; Soldout <= '1'; MoreCash <= '0'; ProdB <= '0'; ProdC <= '0';
 			elsif (VendA = '1' and Ai = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0';
 			elsif (VendB = '1' and Bi > 0) then
-			ProdB <= '1';
-			Bi<= Bi - 1;
+				ProdB <= '1'; Soldout <= '0'; MoreCash <= '0'; ProdA <= '0'; ProdC <= '0';
 			elsif (VendB = '1' and Bi = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0';
 			elsif (VendC = '1' and Ci > 0) then
-			ProdC <= '1';
-			Ci <= Ci - 1;
+				ProdC <= '1'; Soldout <= '0'; MoreCash <= '0'; ProdA <= '0'; ProdB <= '0';
 			elsif (VendC = '1' and Ci = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0';
 			elsif (VendD = '1') then
-				MoreCash <= '1';
+				MoreCash <= '1'; ProdB <= '0'; Soldout <= '0'; MoreCash <= '0'; ProdA <= '0'; ProdC <= '0';
 			else
-				null;
+				MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; Soldout <= '0';
 			end if;
+				ProdD <= '0'; ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Lockout <= '0';
 		
 		when S5 =>
-			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
 			if (VendA = '1' and Ai > 0) then
-			ProdA <= '1';
-			Ai <= Ai - 1;
+				ProdA <= '1'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0'; Soldout <= '0';
 			elsif (VendA = '1' and Ai = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '1'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendB = '1' and Bi > 0) then
-			ProdB <= '1';
-			Bi<= Bi - 1;
+				ProdB <= '1'; Soldout <= '0'; ProdA <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendB = '1' and Bi = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendC = '1' and Ci > 0) then
-			ProdC <= '1';
-			Ci <= Ci - 1;
+				ProdC <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdD <= '0';
 			elsif (VendC = '1' and Ci = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendD = '1' and Di > 0) then
-			ProdD <= '1';
-			Di <= Di - 1;
+				ProdD <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0';
 			elsif (VendD = '1' and Di = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			else
-				null;
+				Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			end if;
+			MoreCash <= '0'; ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0';  Lockout <= '0';
 
 		when S6 =>
-		   MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
 			if (VendA = '1' and Ai > 0) then
-				ProdA <= '1';
-				Ai <= Ai - 1;
+				ProdA <= '1'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0'; Soldout <= '0';
 			elsif (VendA = '1' and Ai = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendB = '1' and Bi > 0) then
-				ProdB <= '1';
-				Bi<= Bi - 1;
+				ProdB <= '1'; Soldout <= '0'; ProdA <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendB = '1' and Bi = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendC = '1' and Ci > 0) then
-			ProdC <= '1';
-			Ci <= Ci - 1;
+				ProdC <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdD <= '0';
 			elsif (VendC = '1' and Ci = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendD = '1' and Di > 0) then
-			ProdD <= '1';
-			Di <= Di - 1;
+				ProdD <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0';
 			elsif (VendD = '1' and Di = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			else
-				null;
+				Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			end if;
+			MoreCash <= '0'; ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Lockout <= '0';
 			
 		when S7 =>
-		   MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
 			if (VendA = '1' and Ai > 0) then
-			ProdA <= '1';
-			Ai <= Ai - 1;
+				ProdA <= '1';  ProdB <= '0'; ProdC <= '0'; ProdD <= '0'; Soldout <= '0';
 			elsif (VendA = '1' and Ai = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendB = '1' and Bi > 0) then
-			ProdB <= '1';
-			Bi<= Bi - 1;
+				ProdB <= '1'; Soldout <= '0'; ProdA <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendB = '1' and Bi = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendC = '1' and Ci > 0) then
-			ProdC <= '1';
-			Ci <= Ci - 1;
+				ProdC <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdD <= '0';
 			elsif (VendC = '1' and Ci = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendD = '1' and Di > 0) then
-			ProdD <= '1';
-			Di <= Di - 1;
+				ProdD <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0';
 			elsif (VendD = '1' and Di = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			else
-				null;
+				Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			end if;
+			MoreCash <= '0'; ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Lockout <= '0';
 			
 		when S8 =>
-			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0';
 			if (VendA = '1' and Ai > 0) then
-			ProdA <= '1';
-			Ai <= Ai - 1;
+				ProdA <= '1'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0'; Soldout <= '0';
 			elsif (VendA = '1' and Ai = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendB = '1' and Bi > 0) then
-			ProdB <= '1';
-			Bi<= Bi - 1;
+				ProdB <= '1'; Soldout <= '0'; ProdA <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendB = '1' and Bi = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendC = '1' and Ci > 0) then
-			ProdC <= '1';
-			Ci <= Ci - 1;
+				ProdC <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdD <= '0';
 			elsif (VendC = '1' and Ci = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendD = '1' and Di > 0) then
-			ProdD <= '1';
-			Di <= Di - 1;
+				ProdD <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0';
 			elsif (VendD = '1' and Di = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			else
-				null;
+				Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			end if;
+			MoreCash <= '0'; ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0';
 			
 		when S9 =>
-		   MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
 			if (VendA = '1' and Ai > 0) then
-			ProdA <= '1';
-			Ai <= Ai - 1;
+				ProdA <= '1'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0'; Soldout <= '0';
 			elsif (VendA = '1' and Ai = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendB = '1' and Bi > 0) then
-			ProdB <= '1';
-			Bi <= Bi - 1;
+				ProdB <= '1'; Soldout <= '0'; ProdA <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendB = '1' and Bi = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendC = '1' and Ci > 0) then
-			ProdC <= '1';
-			Ci <= Ci - 1;
+				ProdC <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdD <= '0';
 			elsif (VendC = '1' and Ci = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			elsif (VendD = '1' and Di > 0) then
-			ProdD <= '1';
-			Di <= Di - 1;
+				ProdD <= '1'; Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0';
 			elsif (VendD = '1' and Di = 0) then
-				Soldout <= '1';
+				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			else
-				null;
+				Soldout <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			end if;
+			MoreCash <= '0'; ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Lockout <= '0';
 			
 		when S10 =>
-		MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
 			if (Ct > 0 and Ni > 0) then
-				RNick <= '1';
-				Ni <= Ni - 1;
+				ret_nick <= '1';
+			else
+				ret_nick <= '0';
 			end if;
+			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			
 		when S11 =>
-		MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
 			if (Ct > 5 and Di > 0) then
-				RDime <= '1';
-				Dimei <= Dimei - 1;
+				Ret_Dime <= '1';
+			else
+				Ret_Dime <= '0';
 			end if;
+			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			ret_nick <= '0';  Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			
 		when S12 =>
-			null;
---			MoreCash <= '0'; ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
---			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
---			if (Ct > 20 and Qi > 0) then
---				RQuarter <= '1';
---				Qi <= Qi - 1;
---			end if;
+			MoreCash <= '0';
+			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
+			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			
 		when S13 =>
 			Lockout <= '1';
 			MoreCash <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; 
+			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; 
 			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 		
 		when S14 =>
 			MoreCash <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
+			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			Ai <= 5;
-			Bi <= 5;
-			Ci <= 5;
-			Di <= 5;
-			Ni <= 5;
-			Dimei <= 5;
-			Qi <= 5;
 			
 			
 		when S15 =>
 			MoreCash <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
+			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			
 			
 			
 		when S16 => 
-			MoreCash <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
-			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			
 			if (Ct = 5) then
-						RNick <= '1';
-						Ni <= Ni - 1;
+						ret_nick <= '1';
 			elsif (Ct = 10) then
-						RDime <= '1';
-						Dimei <= Dimei - 1;
+						Ret_Dime <= '1';
 			elsif (Ct =15) then
-						RDime <= '1';
-						Dimei <= Dimei - 1;
+						Ret_Dime <= '1';
 			elsif (Ct = 20) then
-						RDime <= '1';
-						Dimei <= Dimei - 1;
+						Ret_Dime <= '1';
 			elsif (Ct =25) then
-						RQuarter <= '1';
-						Qi <= Qi - 1;
+						Ret_Quart <= '1';
 			elsif (Ct = 30) then
-						RQuarter <= '1';
-						Qi <= Qi - 1;
+						Ret_Quart <= '1';
 			elsif (Ct = 35) then
-						RQuarter <= '1';
-						Qi <= Qi - 1;
+						Ret_Quart <= '1';
 			elsif (Ct = 40) then
-						RQuarter <= '1';
-						Qi <= Qi - 1;
+						Ret_Quart <= '1';
+			else
+				ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0';
 			end if;
+			MoreCash <= '0';
+			 Soldout <= '0'; Lockout <= '0';
+			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 					
 			
 		when S17 =>
 			MoreCash <= '0';
-			RNick <= '0'; RDime <= '0'; RQuarter <= '0'; Soldout <= '0'; Lockout <= '0';
+			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			
 		end case;
 		end process;
-sseg: Process(Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,ProdA, ProdB, ProdC, ProdD, Toggle_Hex1, Ai, Bi, Ci, Di, Ni, Qi, Dimei)
+		
+sseg: Process(Dimei, Qi, Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,ProdA, ProdB, ProdC, ProdD, Toggle_Hex1, Toggle_Hex2, Ai, Bi, Ci, Di, Ct, Ni)
 begin
-		if (Toggle_Hex1 = '1') then
+		if (Toggle_Hex1 = '1' and Toggle_Hex2 = '0') then
 			Case Ai is
 			when 0 => 
 				full_seven_segment(6 downto 0) <=  "1000000"; 
@@ -687,11 +666,13 @@ begin
 			when 2 => 	
 				full_seven_segment(6 downto 0) <=  "0100100";
 			when 3 => 
-			full_seven_segment(6 downto 0) <=  "0110000";
+				full_seven_segment(6 downto 0) <=  "0110000";
 			when 4 => 
 				full_seven_segment(6 downto 0) <=  "0011001";
 			when 5 => 
 				full_seven_segment(6 downto 0) <=  "0010010";
+			when others =>
+				full_seven_segment(6 downto 0) <=  "1111111";
 			end case;
 			Case Bi is
 			when 0 => 
@@ -706,11 +687,13 @@ begin
 				full_seven_segment(13 downto 7) <=  "0011001";
 			when 5 => 
 				full_seven_segment(13 downto 7) <=  "0010010";
+			when others =>
+				full_seven_segment(13 downto 7) <=  "1111111";
 			end case;
 			Case Ci is
 			when 0 => 
 				full_seven_segment(20 downto 14) <=  "1000000"; 
-			when 1 => 
+			when 1			=> 
 				full_seven_segment(20 downto 14) <=  "1111001";
 			when 2 => 	
 				full_seven_segment(20 downto 14) <=  "0100100";
@@ -720,6 +703,8 @@ begin
 				full_seven_segment(20 downto 14) <=  "0011001";
 			when 5 => 
 				full_seven_segment(20 downto 14) <=  "0010010";
+			when others =>
+				full_seven_segment(20 downto 14) <=  "1111111";
 			end case;
 			Case Di is
 			when 0 => 
@@ -734,10 +719,62 @@ begin
 				full_seven_segment(27 downto 21) <=  "0011001";
 			when 5 => 
 				full_seven_segment(27 downto 21) <=  "0010010";
+			when others => 
+				full_seven_segment(27 downto 21) <=  "1111111";
 			end case;
-		elsif (Toggle_Hex1 = '0') then
+		elsif (Toggle_Hex1 = '0' and Toggle_Hex2 = '1')then
+			Case Ni is
+			when 0 => 
+				full_seven_segment(6 downto 0) <=  "1000000"; 
+			when 1 => 
+				full_seven_segment(6 downto 0) <=  "1111001";
+			when 2 => 	
+				full_seven_segment(6 downto 0) <=  "0100100";
+			when 3 => 
+				full_seven_segment(6 downto 0) <=  "0010001";
+			when 4 => 
+				full_seven_segment(6 downto 0) <=  "0011001";
+			when 5 => 
+				full_seven_segment(6 downto 0) <=  "0010010";
+			when others =>
+				full_seven_segment(6 downto 0) <=  "1111111";
+			end case;
+			Case Dimei is
+			when 0 => 
+				full_seven_segment(13 downto 7) <=  "1000000"; 
+			when 1 => 
+				full_seven_segment(13 downto 7) <=  "1111001";
+			when 2 => 	
+				full_seven_segment(13 downto 7) <=  "0100100";
+			when 3 => 
+			full_seven_segment(13 downto 7) <=  "0110000";
+			when 4 => 
+				full_seven_segment(13 downto 7) <=  "0011001";
+			when 5 => 
+				full_seven_segment(13 downto 7) <=  "0010010";
+			when others =>
+				full_seven_segment(13 downto 7) <=  "1111111";
+			end case;
+			Case Qi is
+			when 0 => 
+				full_seven_segment(20 downto 14) <=  "1000000"; 
+			when 1 => 
+				full_seven_segment(20 downto 14) <=  "1111001";
+			when 2 => 	
+				full_seven_segment(20 downto 14) <=  "0100100";
+			when 3 => 
+			full_seven_segment(20 downto 14) <=  "0110000";
+			when 4 => 
+				full_seven_segment(20 downto 14) <=  "0011001";
+			when 5 => 
+				full_seven_segment(20 downto 14) <=  "0010010";
+			when others =>
+				full_seven_segment(20 downto 14) <=  "1111111";
+			end case;
+				full_seven_segment(27 downto 21) <=  "1111111"; 
+		elsif (Toggle_Hex1 = '0' and Toggle_Hex2 = '0') then
 			if Cstate = S0 then
-				full_seven_segment <= "1000000111111111111110010010";
+				full_seven_segment <= "0100001100100000001101000001";
 			elsif Cstate = S1 then
 				full_seven_segment <= "1111111111111111111110010010";
 			elsif Cstate = S2 then
@@ -852,29 +889,120 @@ begin
 				full_seven_segment <= "1111111000001000010011000110";
 			elsif Cstate = S17 then
 				full_seven_segment <= "0111111011111101111110111111";
-	--		elsif ProdA = '1' then
-	--			full_seven_segment <= "0001000000100000010000001000";
-	--		elsif ProdB = '1' then
-	--			full_seven_segment <= "0000011000001100000110000011";
-	--		elsif ProdC = '1' then
-	--			full_seven_segment <= "1000110100011010001101000110";
-	--		elsif ProdD = '1' then
-	--			full_seven_segment <= "0100001010000101000010100001";
 			else
 				full_seven_segment <= "1111111111111111111111111111";
+			end if;
+			else 
+				full_seven_segment <= "1111111111111111111111111111";
+	
 	end if;
+end process;
+	
+update_inventory: process(SLOW_CLK,Cstate, prodA, prodB, prodC, prodD, reset, ret_nick, ret_dime, ret_quart, Al, Bl, Cl, Dl, Dimel, Nl, Ql) begin
+		if SLOW_CLK'event and SLOW_CLK = '1' then
+		if Cstate = S14 then
+			Ai <= five_cons;
+			Bi <= five_cons;
+			Ci <= five_cons;
+			Di <= five_cons;
+			Ni <= five_cons;
+			Dimei <= five_cons;
+			Qi <= five_cons;
+		elsif reset = '1' then
+			Ai <= 5;
+			Bi <= 5;
+			Ci <= 5;
+			Di <= 5;
+			Ni <= 5;
+			Dimei <= 5;
+			Qi <= 5;
+		elsif prodA = '1' then
+			Ai <= Al;
+			Bi <= Bi;
+			Ci <= Ci;
+			Di <= Di;
+			Ni <= Ni;
+			Dimei <= Dimei;
+			Qi <= Qi;
+		elsif prodB = '1' then
+			Bi <= Bl;
+			Ni <= Ni;
+			Dimei <= Dimei;
+			Qi <= Qi;
+			Ai <= Ai;
+			Ci <= Ci;
+			Di <= Di; 
+		elsif ProdC = '1' then
+			Ci <= Cl;
+			Ni <= Ni;
+			Dimei <= Dimei;
+			Qi <= Qi;
+			Ai <= Ai;
+			Bi <= Bi;
+			Di <= Di;
+		elsif prodD = '1' then
+			Di <= Dl;
+			Ni <= Ni;
+			Dimei <= Dimei;
+			Qi <= Qi;
+			Ai <= Ai;
+			Bi <= Bi;
+			Ci <= Ci;
+		elsif Ret_Quart = '1' then
+			Qi <= Ql;
+			Ni <= Ni;
+			Dimei <= Dimei;
+			Ai <= Ai;
+			Bi <= Bi;
+			Ci <= Ci;
+			Di <= Di;
+		elsif Ret_Dime = '1' then
+			Dimei <= Dimel;
+			Ni <= Ni;
+			Qi <= Qi;
+			Ai <= Ai;
+			Bi <= Bi;
+			Ci <= Ci;
+			Di <= Di; 
+		elsif Ret_Nick = '1' then
+			Ni <= Nl;
+			Dimei <= Dimei;
+			Qi <= Qi;
+			Ai <= Ai;
+			Bi <= Bi;
+			Ci <= Ci;
+			Di <= Di;
+		else 
+			Ni <= Ni;
+			Dimei <= Dimei;
+			Qi <= Qi;
+			Ai <= Ai;
+			Bi <= Bi;
+			Ci <= Ci;
+			Di <= Di; 
+		end if;
 	end if;
 end process;
 
---count: Process(Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return, SLOW_CLK)
---	begin
---	if (SLOW_CLK'event and SLOW_CLK = '1') then
---		if(Np = '1' or Dp= '1' or Qp= '1' or VendA= '1' or VendB= '1' or VendC= '1' or VendD= '1' or Coin_Return = '1') then
---		Count <= 0;
---		else 
---		Count <= Count + 1;
---	end if; 
---	end if;
---	end process;
+increment_count: process (SLOW_CLK, Np,Dp,Qp,VendA,VendB,VendC,VendD) begin
+	if (SLOW_CLK'event and SLOW_CLK = '1') then
+		if (Count = 45) then
+			timeout <= '1';
+			Count := 0;
+		elsif (Np = '1' or Dp = '1' or Qp = '1' or VendA = '1' or VendB = '1' or VendC = '1' or VendD = '1') then
+			Count := 0;
+			timeout <= '0';
+		else
+			timeout <= '0';
+			Count := Count + 1;
+		end if;
+	end if;
+end process;
+
+RQuarter <= Ret_Quart;
+RDime <= Ret_Dime;
+RNick <= Ret_Nick;
+
+
 end Behavioral;
 

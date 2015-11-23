@@ -162,6 +162,8 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
+		
+--Testing absolute combination for N,D,Q, VendA,VendB,VendC,VendD
       Nickel <= '1';
 		wait for 10 ns;
 		Nickel <= '0';
@@ -182,6 +184,19 @@ BEGIN
 		wait for 10 ns;
 		Nickel <= '0';
 		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 50 ns;
+		
+      Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
 		Nickel <= '1';
 		wait for 10 ns;
 		Nickel <= '0';
@@ -190,7 +205,302 @@ BEGIN
 		wait for 10 ns;
 		Nickel <= '0';
 		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		VendB <= '1';
+		wait for 10 ns;
+		VendB <= '0';
+		wait for 50 ns;		
 
+      Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		VendC <= '1';
+		wait for 10 ns;
+		VendC <= '0';
+		wait for 50 ns;
+		
+      Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		VendD <= '1';
+		wait for 10 ns;
+		VendD <= '0';
+		wait for 50 ns;
+		
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 50 ns;
+		
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		VendB <= '1';
+		wait for 10 ns;
+		VendB <= '0';
+		wait for 50 ns;
+		
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		VendC <= '1';
+		wait for 10 ns;
+		VendC <= '0';
+		wait for 50 ns;
+		
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		VendD <= '1';
+		wait for 10 ns;
+		VendD <= '0';
+		wait for 50 ns;
+		
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 50 ns;
+		
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendB <= '1';
+		wait for 10 ns;
+		VendB <= '0';
+		wait for 50 ns;
+		
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendC <= '1';
+		wait for 10 ns;
+		VendC <= '0';
+		wait for 50 ns;
+		
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendC <= '1';
+		wait for 10 ns;
+		VendC <= '0';
+		wait for 50 ns;
+		
+--Restock before testing various combinations		
+		Restock <= '1';
+		wait for 10 ns;
+		Restock <= '0';
+		wait for 50 ns;
+		
+--Testing Restock, MoreCash, Soldout
+	--Insert 30 cents
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 10 ns;
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 50 ns;		--ProdA has 4 left
+	
+	--Insert 35 cents
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 10 ns;
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 50 ns;		--ProdA has 3 left
+	
+	--Insert 40 cents
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Nickel <= '1';
+		wait for 10 ns;
+		Nickel <= '0';
+		wait for 10 ns;
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 50 ns;		--ProdA has 3 left
+		
+	--Insert 45 cents
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 50 ns;		--ProdA has 2 left
+		
+	--Insert 45 cents
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 50 ns;		--ProdA has 1 left
+		
+	--Insert 45 cents
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Dime <= '1';
+		wait for 10 ns;
+		Dime <= '0';
+		wait for 10 ns;
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 50 ns;		--ProdA has 0 left
+
+	--Here we should have no more of ProdA
+		Quarter <= '1';
+		wait for 10 ns;
+		Quarter <= '0';
+		wait for 10 ns;
+		VendA <= '1';
+		wait for 10 ns;
+		VendA <= '0';
+		wait for 50 ns;		--Sold out of ProdA state
+		
+	--Restock for ProdA
+		Restock <= '1';
+		wait for 10 ns;
+		Restock <= '0';
+		wait for 50 ns;
+		
+--Test Lockout Phase (this will take a while)
+	
       -- insert stimulus here 
 
       wait;

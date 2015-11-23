@@ -1,3 +1,3 @@
-work	"debounce.vhd"
+work	"buff.vhd"
 work	"seven_segment1.vhd"
-work	"vendmach.vhd"
+work	"vend_machine_for_test_bench.vhd"

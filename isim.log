@@ -1,2 +1,2 @@
 ISim log file
-Running: C:\Users\Spencer Offenberger\final_project_eee_333\vend_machine_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb C:/Users/Spencer Offenberger/final_project_eee_333/vend_machine_tb_isim_beh.wdb 
+Running: C:\Users\Spencer Offenberger\final_project_eee_333\VendMachine_for_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb C:/Users/Spencer Offenberger/final_project_eee_333/VendMachine_for_tb_isim_beh.wdb 

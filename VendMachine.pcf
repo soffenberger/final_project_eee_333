@@ -1,11 +1,10 @@
 //! **************************************************************************
-// Written by: Map P.49d on Wed Nov 18 23:20:41 2015
+// Written by: Map P.49d on Sun Nov 22 00:17:14 2015
 //! **************************************************************************
 
 SCHEMATIC START;
 COMP "Decimal" LOCATE = SITE "N13" LEVEL 1;
 COMP "Dime" LOCATE = SITE "M4" LEVEL 1;
-COMP "LockOut" LOCATE = SITE "N4" LEVEL 1;
 COMP "Restock" LOCATE = SITE "G12" LEVEL 1;
 COMP "SoldOut" LOCATE = SITE "N5" LEVEL 1;
 COMP "AN<0>" LOCATE = SITE "K14" LEVEL 1;
@@ -21,9 +20,12 @@ COMP "VendA" LOCATE = SITE "P11" LEVEL 1;
 COMP "VendB" LOCATE = SITE "L3" LEVEL 1;
 COMP "VendC" LOCATE = SITE "K3" LEVEL 1;
 COMP "VendD" LOCATE = SITE "B4" LEVEL 1;
+COMP "reset" LOCATE = SITE "G3" LEVEL 1;
 COMP "MoreCash" LOCATE = SITE "P6" LEVEL 1;
 COMP "Clock_out" LOCATE = SITE "G1" LEVEL 1;
+COMP "LockOut" LOCATE = SITE "N4" LEVEL 1;
 COMP "Toggle_Hex1" LOCATE = SITE "F3" LEVEL 1;
+COMP "Toggle_Hex2" LOCATE = SITE "E2" LEVEL 1;
 COMP "Seven_segment_out<0>" LOCATE = SITE "L14" LEVEL 1;
 COMP "Seven_segment_out<1>" LOCATE = SITE "H12" LEVEL 1;
 COMP "Seven_segment_out<2>" LOCATE = SITE "N14" LEVEL 1;

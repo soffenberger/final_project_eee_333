@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -o "C:/Users/Spencer Offenberger/final_project_eee_333/vend_machine_tb_isim_beh.exe" -prj "C:/Users/Spencer Offenberger/final_project_eee_333/vend_machine_tb_beh.prj" "work.vend_machine_tb" 
+-intstyle "ise" -incremental -o "C:/Users/Spencer Offenberger/final_project_eee_333/VendMachine_for_tb_isim_beh.exe" -prj "C:/Users/Spencer Offenberger/final_project_eee_333/VendMachine_for_tb_beh.prj" "work.VendMachine_for_tb" 

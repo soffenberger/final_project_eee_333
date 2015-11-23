@@ -1,24 +1,35 @@
-V3 11
+V3 18
+FL "C:/Users/Spencer Offenberger/final_project_eee_333/buff.vhd" 2015/11/21.23:09:23 P.49d
+EN work/Buff 1448180213 \
+      FL "C:/Users/Spencer Offenberger/final_project_eee_333/buff.vhd" \
+      PB ieee/std_logic_1164 1354696159 PB ieee/std_logic_arith 1354696160
+AR work/Buff/behavioral 1448180214 \
+      FL "C:/Users/Spencer Offenberger/final_project_eee_333/buff.vhd" \
+      EN work/Buff 1448180213
+FL "C:/Users/Spencer Offenberger/final_project_eee_333/buffer.vhd" 2015/11/21.18:38:52 P.49d
+AR work/regBuf/behavioral 0 \
+      FL "C:/Users/Spencer Offenberger/final_project_eee_333/buffer.vhd" \
+      EN work/regBuf 0
 FL "C:/Users/Spencer Offenberger/final_project_eee_333/debounce.vhd" 2015/11/17.19:33:12 P.49d
-EN work/DEBOUNCE 1447917623 \
+EN work/DEBOUNCE 1448180209 \
       FL "C:/Users/Spencer Offenberger/final_project_eee_333/debounce.vhd" \
       PB ieee/std_logic_1164 1354696159 PB ieee/std_logic_arith 1354696160 \
       PB ieee/STD_LOGIC_UNSIGNED 1354696162
-AR work/DEBOUNCE/clean_pulse 1447917624 \
+AR work/DEBOUNCE/clean_pulse 1448180210 \
       FL "C:/Users/Spencer Offenberger/final_project_eee_333/debounce.vhd" \
-      EN work/DEBOUNCE 1447917623
+      EN work/DEBOUNCE 1448180209
 FL "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" 2015/11/17.20:10:49 P.49d
-EN work/seven_segment 1447917625 \
+EN work/seven_segment 1448180211 \
       FL "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" \
       PB ieee/std_logic_1164 1354696159 PB ieee/NUMERIC_STD 1354696164
-AR work/seven_segment/Behavioral 1447917626 \
+AR work/seven_segment/Behavioral 1448180212 \
       FL "C:/Users/Spencer Offenberger/final_project_eee_333/seven_segment1.vhd" \
-      EN work/seven_segment 1447917625
-FL "C:/Users/Spencer Offenberger/final_project_eee_333/vendmach.vhd" 2015/11/18.23:20:18 P.49d
-EN work/VendMachine 1447917627 \
+      EN work/seven_segment 1448180211
+FL "C:/Users/Spencer Offenberger/final_project_eee_333/vendmach.vhd" 2015/11/22.00:16:45 P.49d
+EN work/VendMachine 1448180215 \
       FL "C:/Users/Spencer Offenberger/final_project_eee_333/vendmach.vhd" \
       PB ieee/std_logic_1164 1354696159 PB ieee/NUMERIC_STD 1354696164 \
       PB ieee/std_logic_arith 1354696160 PB ieee/STD_LOGIC_UNSIGNED 1354696162
-AR work/VendMachine/Behavioral 1447917628 \
+AR work/VendMachine/Behavioral 1448180216 \
       FL "C:/Users/Spencer Offenberger/final_project_eee_333/vendmach.vhd" \
-      EN work/VendMachine 1447917627 CP DEBOUNCE CP seven_segment
+      EN work/VendMachine 1448180215 CP DEBOUNCE CP seven_segment CP Buff

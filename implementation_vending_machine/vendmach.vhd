@@ -647,9 +647,14 @@ begin
 			ret_nick <= '0';  Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			
 		when S12 =>
-			MoreCash <= '0';
-			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
-			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			if (Ct >= 25) then
+				MoreCash <= '0';
+				ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '1'; Soldout <= '0'; Lockout <= '0';
+				ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			else 
+				MoreCash <= '0';
+				ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
+				ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';	
 			
 		when S13 =>
 			Lockout <= '1';

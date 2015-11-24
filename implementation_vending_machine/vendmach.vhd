@@ -117,7 +117,7 @@ begin
     if Clock'event and Clock = '1' then
         CLK_DIVIDER <= CLK_DIVIDER + 1;
     end if;
-    SLOW_CLK <= CLK_DIVIDER(24); --21
+    SLOW_CLK <= CLK_DIVIDER(24); --23
 	 Clock_out <= SLOW_CLK;
 end process;
 

@@ -366,7 +366,7 @@ begin
 				when S15 =>										-- Blank State
 					Cstate <= S11;
 				
-				when S16 =>
+				when S16 =>  --Add more cases
 					if Ct = 20 and VendA = '1' then
 						Cstate <= S2;
 						Ct <= Ct - 10;
@@ -783,7 +783,7 @@ begin
 			when 2 => 	
 				full_seven_segment(6 downto 0) <=  "0100100";
 			when 3 => 
-				full_seven_segment(6 downto 0) <=  "0010001";
+				full_seven_segment(6 downto 0) <=  "0010001"; --Fix this
 			when 4 => 
 				full_seven_segment(6 downto 0) <=  "0011001";
 			when 5 => 

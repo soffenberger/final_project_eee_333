@@ -117,7 +117,7 @@ begin
     if Clock'event and Clock = '1' then
         CLK_DIVIDER <= CLK_DIVIDER + 1;
     end if;
-    SLOW_CLK <= CLK_DIVIDER(24); --21
+    SLOW_CLK <= CLK_DIVIDER(23); --21
 	 Clock_out <= SLOW_CLK;
 end process;
 
@@ -341,12 +341,14 @@ begin
 					
 				
 				when S12 =>										-- Return Quarter State
-					Cstate <= S11;
 					if Ct >= 25 then
 						Ct <= Ct - 25;
+						Cstate <= S15;
 					else 
 						Ct <= Ct;
+						Cstate <= S11;
 					end if;
+					
 					
 				when S13 =>										-- Lockout State, Must Restock Machine
 					if Restock = '1' then
@@ -403,6 +405,33 @@ begin
 					elsif Ct = 45 and VendC = '1' then
 						Cstate <= S5;
 						Ct <= Ct - 20;
+					elsif Ct = 20 and VendA = '0' then
+						Cstate <= S2;
+					elsif Ct = 25 and VendA = '0' then
+						Cstate <= S3;
+					elsif Ct = 30 and VendA = '0' then
+						Cstate <= S4;
+					elsif Ct = 30 and VendB = '0' then
+						Cstate <= S3;
+					elsif Ct = 35 and VendA = '0' then
+						Cstate <= S5;
+					elsif Ct = 35 and VendB = '0' then
+						Cstate <= S4;
+					elsif Ct = 40 and VendA = '0' then
+						Cstate <= S6;
+					elsif Ct = 40 and VendB = '0' then
+						Cstate <= S5;
+					elsif Ct = 40 and VendC = '0' then
+						Cstate <= S4;
+					elsif Ct = 45 and VendA = '0' then
+						Cstate <= S7;
+					elsif Ct = 45 and VendB = '0' then
+						Cstate <= S6;
+					elsif Ct = 45 and VendC = '0' then
+						Cstate <= S5;
+					else 
+						Cstate <= S0;
+					
 					end if;
 					
 --				when S12 =>
@@ -647,10 +676,16 @@ begin
 			ret_nick <= '0';  Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			
 		when S12 =>
-			MoreCash <= '0';
-			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
-			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			
+			if Ct >= 25 then
+				MoreCash <= '0';
+				ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '1'; Soldout <= '0'; Lockout <= '0';
+				ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			else 
+				MoreCash <= '0';
+				ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
+				ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			end if;
+				
 		when S13 =>
 			Lockout <= '1';
 			MoreCash <= '0';
@@ -667,7 +702,6 @@ begin
 			MoreCash <= '0';
 			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
-			
 			
 			
 		when S16 => 
@@ -734,7 +768,7 @@ begin
 			when 2 => 	
 				full_seven_segment(13 downto 7) <=  "0100100";
 			when 3 => 
-			full_seven_segment(13 downto 7) <=  "0110000";
+				full_seven_segment(13 downto 7) <=  "0110000";
 			when 4 => 
 				full_seven_segment(13 downto 7) <=  "0011001";
 			when 5 => 
@@ -783,7 +817,7 @@ begin
 			when 2 => 	
 				full_seven_segment(6 downto 0) <=  "0100100";
 			when 3 => 
-				full_seven_segment(6 downto 0) <=  "0010001";
+				full_seven_segment(6 downto 0) <=  "0110000";
 			when 4 => 
 				full_seven_segment(6 downto 0) <=  "0011001";
 			when 5 => 
@@ -826,7 +860,7 @@ begin
 				full_seven_segment(27 downto 21) <=  "1111111"; 
 		elsif (Toggle_Hex1 = '0' and Toggle_Hex2 = '0') then
 			if Cstate = S0 then
-				full_seven_segment <= "0100001100100000001101000001";
+				full_seven_segment <= "1111111111111110011110001001";
 			elsif Cstate = S1 then
 				full_seven_segment <= "1111111111111111111110010010";
 			elsif Cstate = S2 then
@@ -863,7 +897,7 @@ begin
 				elsif ProdD = '1' then
 					full_seven_segment <= "0100001010000101000010100001";
 				else 
-					full_seven_segment <= "1111111111111100100100100100";
+					full_seven_segment <= "0001001100011010011110001100";
 				end if;
 			elsif Cstate = S6 then
 				if ProdA = '1' then

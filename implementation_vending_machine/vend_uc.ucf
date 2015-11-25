@@ -1,0 +1,49 @@
+#Inputs: ##############################-
+#Nickel, Dime, Quarter: Coins inserted into machine.
+#Coin_Return: Input used to return coins.
+#Restock: Input to restock machine
+#VendA, VendB, VendC, VendD: Switch to press to Vend specific product.
+#Toggle_Hex1, Toggle_Hex2, Toggle_Hex3: Used to toggle Hex Display.
+###################################-
+
+NET "Nickel" LOC = "A7";
+NET "Dime" LOC = "M4";
+NET "Quarter" LOC = "C11";
+NET "Coin_Return" LOC = "N3";
+NET "Restock" LOC = "G12";
+NET "VendA" LOC = "P11";
+NET "Toggle_Hex1" LOC = "F3";
+NET "Toggle_Hex2" LOC = "E2";
+NET "reset" LOC = "G3";
+NET "VendB" LOC = "L3";
+NET "VendC" LOC = "K3";
+NET "VendD" LOC = "B4";
+NET "Clock" LOC = "B8";
+NET "Decimal" LOC ="N13";
+NET "Clock_out" LOC = "G1";
+
+#Outputs: ##############################
+#ProdA, ProdB, ProdC, ProdD: Output signal to dispense products.
+#RNick, RDime, RQuarter:     Output signal to dispense change.
+#MoreCash: LED that turns on when more cash is needed to dispense product chosen.
+#Soldout: LED that turns on when product chosen is sold out.
+#Lockout: Turns on when machine is out of change, must be restocked to turn off.
+####################################
+
+NET "AN(3)" LOC = "F12";
+NET "AN(2)" LOC = "J12";
+NET "AN(1)" LOC = "M13";
+NET "AN(0)" LOC = "K14";
+NET "Seven_segment_out(0)" LOC = "L14";
+NET "Seven_segment_out(1)" LOC = "H12";	
+NET "Seven_segment_out(2)" LOC = "N14";	
+NET "Seven_segment_out(3)" LOC = "N11"	;
+NET "Seven_segment_out(4)" LOC = "P12"	;
+NET "Seven_segment_out(5)" LOC = "L13"	;
+NET "Seven_segment_out(6)" LOC = "M12"	;																				 					 
+NET "RNick" LOC = "M5";
+NET "RDime" LOC = "M11";
+NET "RQuarter" LOC = "P7";
+NET "MoreCash" LOC = "P6";
+NET "SoldOut" LOC = "N5";
+NET "LockOut" LOC = "N4";

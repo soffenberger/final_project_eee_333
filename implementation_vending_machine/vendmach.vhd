@@ -85,8 +85,8 @@ end Component;
 
 Component Buff is port (
 	clock: in std_logic;
-	input: in integer range 0 to 5;
-	bufferOut: out integer range 0 to 5
+	input: in integer;
+	bufferOut: out integer
 ); 
 end Component;
 
@@ -95,8 +95,10 @@ signal Cstate: state;
 Signal Np, Dp, Qp, restock_temp: std_logic; -- Debounced values
 signal Ct: integer range 0 to 45; -- Credit the user has
 shared variable Count: integer range 0 to 45; -- Count for the timeout
-signal Ai,Bi,Ci,Di,Ni,Dimei,Qi: integer range 0 to 5 :=5; -- Variables to track the inventory
-signal Al,Bl,Cl,Dl,Nl,Dimel,Ql: integer range 0 to 5 :=5; -- Buffer signals to track inventory
+signal Ai,Bi,Ci,Di: integer range 0 to 5 :=5; -- Variables to track the inventory
+signal Ni,Dimei,Qi: integer range 0 to 10 :=10;
+signal Al,Bl,Cl,Dl: integer range 0 to 5 :=5; -- Buffer signals to track inventory
+signal Nl,Dimel,Ql: integer range 0 to 10 :=10;
 signal SLOW_CLK: std_logic; -- Slow clock to work the seven segment
 signal ret_nick, ret_dime, ret_quart: std_logic;  -- Buffer signal for returning coins
 signal CLK_DIVIDER: std_logic_vector(24 downto 0); -- Clock divider for slow clock
@@ -351,9 +353,17 @@ begin
 					
 					
 				when S13 =>										-- Lockout State, Must Restock Machine
+					Ct <= 0;
 					if Restock = '1' then
 					Cstate <= S14;
 					else
+					if Np = '1' then
+						Ct <= 5;
+					elsif Dp = '1' then
+						Ct <= 10;
+					elsif Qp = '1' then
+						Ct <= 25;
+					end if;
 					Cstate <= S13;
 					end if;
 				
@@ -433,42 +443,6 @@ begin
 						Cstate <= S0;
 					
 					end if;
-					
---				when S12 =>
---					if (Ct = 5) then
---						Ct <= Ct - 5;
---						Cstate <= S0;
---					elsif (Ct = 10) then
---						Ct <= Ct - 10;
---						Cstate <= S0;
---					elsif (Ct =15) then
---						Ct <= Ct - 10;
---						Cstate <= S17;
---					elsif (Ct = 20) then
---						Ct <= Ct -10;
---						Cstate <= S17;
---					elsif (Ct =25) then
---						Ct <= Ct - 25;
---						Cstate <= S17;
---					elsif (Ct = 30) then
---						Ct <= Ct - 25;
---						Cstate <= S17;
---					elsif (Ct = 35) then
---						Ct <= Ct - 25;
---						Cstate <= S17;
---					elsif (Ct = 40) then
---						Ct <= Ct - 25;
---						Cstate <= S17;
---					elsif (Ct = 45) then
---						Ct <= Ct -25;
---						Cstate <= S17;
---					else 
---						Ct <= 0;
---						Cstate <= S0;
---					end if;
---			 
---				when S17 =>
---					Cstate <= S12;
 				
 					end case;
 					end if;
@@ -691,6 +665,13 @@ begin
 			MoreCash <= '0';
 			ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; 
 			ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			if Ct = 5 then
+				ret_nick <= '1';
+			elsif Ct = 10 then
+				ret_dime <= '1';
+			elsif Ct = 25 then
+				ret_Quart <= '1';
+			end if;
 		
 		when S14 =>
 			MoreCash <= '0';
@@ -741,7 +722,7 @@ begin
 		end case;
 		end process;
 		
-sseg: Process(Dimei, Qi, Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,ProdA, ProdB, ProdC, ProdD, Toggle_Hex1, Toggle_Hex2, Ai, Bi, Ci, Di, Ct, Ni)
+sseg: Process(Dimei, Qi, Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,ProdA, ProdB, ProdC, ProdD, Toggle_Hex1, Toggle_Hex2, Ai, Bi, Ci, Di, Ct, Ni,SLOW_CLK)
 begin
 		if (Toggle_Hex1 = '1' and Toggle_Hex2 = '0') then
 			Case Ai is
@@ -822,8 +803,18 @@ begin
 				full_seven_segment(6 downto 0) <=  "0011001";
 			when 5 => 
 				full_seven_segment(6 downto 0) <=  "0010010";
+			when 6 => 
+				full_seven_segment(6 downto 0) <=  "0000010"; 
+			when 7 => 
+				full_seven_segment(6 downto 0) <=  "1111000";
+			when 8 => 	
+				full_seven_segment(6 downto 0) <=  "0000000";
+			when 9 => 
+				full_seven_segment(6 downto 0) <=  "0010000";
+			when 10 => 
+				full_seven_segment(6 downto 0) <=  "0001000";
 			when others =>
-				full_seven_segment(6 downto 0) <=  "1111111";
+				full_seven_segment(6 downto 0) <=  "1000000";
 			end case;
 			Case Dimei is
 			when 0 => 
@@ -838,8 +829,18 @@ begin
 				full_seven_segment(13 downto 7) <=  "0011001";
 			when 5 => 
 				full_seven_segment(13 downto 7) <=  "0010010";
+			when 6 => 
+				full_seven_segment(13 downto 7) <=  "0000010"; 
+			when 7 => 
+				full_seven_segment(13 downto 7) <=  "1111000";
+			when 8 => 	
+				full_seven_segment(13 downto 7) <=  "0000000";
+			when 9 => 
+				full_seven_segment(13 downto 7) <=  "0010000";
+			when 10 => 
+				full_seven_segment(13 downto 7) <=  "0001000";
 			when others =>
-				full_seven_segment(13 downto 7) <=  "1111111";
+				full_seven_segment(13 downto 7) <=  "1000000";
 			end case;
 			Case Qi is
 			when 0 => 
@@ -854,8 +855,18 @@ begin
 				full_seven_segment(20 downto 14) <=  "0011001";
 			when 5 => 
 				full_seven_segment(20 downto 14) <=  "0010010";
+			when 6 => 
+				full_seven_segment(20 downto 14) <=  "0000010"; 
+			when 7 => 
+				full_seven_segment(20 downto 14) <=  "1111000";
+			when 8 => 	
+				full_seven_segment(20 downto 14) <=  "0000000";
+			when 9 => 
+				full_seven_segment(20 downto 14) <=  "0010000";
+			when 10 => 
+				full_seven_segment(20 downto 14) <=  "0001000";
 			when others =>
-				full_seven_segment(20 downto 14) <=  "1111111";
+				full_seven_segment(20 downto 14) <=  "1000000";
 			end case;
 				full_seven_segment(27 downto 21) <=  "1111111"; 
 		elsif (Toggle_Hex1 = '0' and Toggle_Hex2 = '0') then
@@ -991,17 +1002,17 @@ update_inventory: process(SLOW_CLK,Cstate, prodA, prodB, prodC, prodD, reset, re
 			Bi <= five_cons;
 			Ci <= five_cons;
 			Di <= five_cons;
-			Ni <= five_cons;
-			Dimei <= five_cons;
-			Qi <= five_cons;
+			Ni <= 10;
+			Dimei <= 10;
+			Qi <= 10;
 		elsif reset = '1' then
 			Ai <= 5;
 			Bi <= 5;
 			Ci <= 5;
 			Di <= 5;
-			Ni <= 5;
-			Dimei <= 5;
-			Qi <= 5;
+			Ni <= 10;
+			Dimei <= 10;
+			Qi <= 10;
 		elsif prodA = '1' then
 			Ai <= Al;
 			Bi <= Bi;

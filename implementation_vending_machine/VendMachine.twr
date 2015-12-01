@@ -45,18 +45,18 @@ Clock Clock to Pad
                     | clk (edge) |                  | Clock  |
 Destination         |   to PAD   |Internal Clock(s) | Phase  |
 --------------------+------------+------------------+--------+
-AN<0>               |    9.936(R)|Clock_BUFGP       |   0.000|
-AN<1>               |   10.557(R)|Clock_BUFGP       |   0.000|
-AN<2>               |   10.051(R)|Clock_BUFGP       |   0.000|
-AN<3>               |    9.986(R)|Clock_BUFGP       |   0.000|
-Clock_out           |    9.754(R)|Clock_BUFGP       |   0.000|
-Seven_segment_out<0>|   10.541(R)|Clock_BUFGP       |   0.000|
-Seven_segment_out<1>|   10.232(R)|Clock_BUFGP       |   0.000|
-Seven_segment_out<2>|   11.902(R)|Clock_BUFGP       |   0.000|
-Seven_segment_out<3>|   10.986(R)|Clock_BUFGP       |   0.000|
-Seven_segment_out<4>|   10.966(R)|Clock_BUFGP       |   0.000|
-Seven_segment_out<5>|   11.164(R)|Clock_BUFGP       |   0.000|
-Seven_segment_out<6>|   10.534(R)|Clock_BUFGP       |   0.000|
+AN<0>               |   10.201(R)|Clock_BUFGP       |   0.000|
+AN<1>               |   10.944(R)|Clock_BUFGP       |   0.000|
+AN<2>               |    9.724(R)|Clock_BUFGP       |   0.000|
+AN<3>               |    9.659(R)|Clock_BUFGP       |   0.000|
+Clock_out           |    9.195(R)|Clock_BUFGP       |   0.000|
+Seven_segment_out<0>|   10.351(R)|Clock_BUFGP       |   0.000|
+Seven_segment_out<1>|   10.019(R)|Clock_BUFGP       |   0.000|
+Seven_segment_out<2>|   10.882(R)|Clock_BUFGP       |   0.000|
+Seven_segment_out<3>|   10.312(R)|Clock_BUFGP       |   0.000|
+Seven_segment_out<4>|   11.243(R)|Clock_BUFGP       |   0.000|
+Seven_segment_out<5>|   10.311(R)|Clock_BUFGP       |   0.000|
+Seven_segment_out<6>|   10.630(R)|Clock_BUFGP       |   0.000|
 --------------------+------------+------------------+--------+
 
 Clock VendA to Pad
@@ -64,13 +64,13 @@ Clock VendA to Pad
                     | clk (edge) |                  | Clock  |
 Destination         |   to PAD   |Internal Clock(s) | Phase  |
 --------------------+------------+------------------+--------+
-Seven_segment_out<0>|   17.801(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<1>|   16.937(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<2>|   18.553(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<3>|   17.643(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<4>|   17.846(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<5>|   17.347(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<6>|   18.061(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<0>|   16.352(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<1>|   14.588(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<2>|   18.443(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<3>|   16.960(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<4>|   18.782(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<5>|   17.005(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<6>|   17.802(F)|ProdA_not0001     |   0.000|
 --------------------+------------+------------------+--------+
 
 Clock VendB to Pad
@@ -78,13 +78,13 @@ Clock VendB to Pad
                     | clk (edge) |                  | Clock  |
 Destination         |   to PAD   |Internal Clock(s) | Phase  |
 --------------------+------------+------------------+--------+
-Seven_segment_out<0>|   19.776(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<1>|   18.912(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<2>|   20.528(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<3>|   19.618(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<4>|   19.821(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<5>|   19.322(F)|ProdA_not0001     |   0.000|
-Seven_segment_out<6>|   20.036(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<0>|   20.118(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<1>|   18.354(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<2>|   22.209(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<3>|   20.726(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<4>|   22.548(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<5>|   20.771(F)|ProdA_not0001     |   0.000|
+Seven_segment_out<6>|   21.568(F)|ProdA_not0001     |   0.000|
 --------------------+------------+------------------+--------+
 
 Clock to Setup on destination clock Clock
@@ -100,7 +100,7 @@ Clock to Setup on destination clock VendA
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-VendA          |         |         |    0.944|    0.944|
+VendA          |         |         |    2.171|    2.171|
 ---------------+---------+---------+---------+---------+
 
 Clock to Setup on destination clock VendB
@@ -108,66 +108,66 @@ Clock to Setup on destination clock VendB
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-VendA          |         |         |   -0.635|   -0.635|
+VendA          |         |         |   -0.841|   -0.841|
 ---------------+---------+---------+---------+---------+
 
 Pad to Pad
 ---------------+--------------------+---------+
 Source Pad     |Destination Pad     |  Delay  |
 ---------------+--------------------+---------+
-Toggle_Hex1    |Seven_segment_out<0>|   14.802|
-Toggle_Hex1    |Seven_segment_out<1>|   13.592|
-Toggle_Hex1    |Seven_segment_out<2>|   14.678|
-Toggle_Hex1    |Seven_segment_out<3>|   14.396|
-Toggle_Hex1    |Seven_segment_out<4>|   11.298|
-Toggle_Hex1    |Seven_segment_out<5>|   12.708|
-Toggle_Hex1    |Seven_segment_out<6>|   12.490|
-Toggle_Hex2    |Seven_segment_out<0>|   15.262|
-Toggle_Hex2    |Seven_segment_out<1>|   14.052|
-Toggle_Hex2    |Seven_segment_out<2>|   15.138|
-Toggle_Hex2    |Seven_segment_out<3>|   14.856|
-Toggle_Hex2    |Seven_segment_out<4>|   12.187|
-Toggle_Hex2    |Seven_segment_out<5>|   13.168|
-Toggle_Hex2    |Seven_segment_out<6>|   14.178|
-VendA          |MoreCash            |   10.313|
-VendA          |Seven_segment_out<0>|   16.058|
-VendA          |Seven_segment_out<1>|   16.479|
-VendA          |Seven_segment_out<2>|   17.228|
-VendA          |Seven_segment_out<3>|   16.506|
-VendA          |Seven_segment_out<4>|   14.536|
-VendA          |Seven_segment_out<5>|   17.437|
-VendA          |Seven_segment_out<6>|   16.932|
-VendA          |SoldOut             |   11.122|
-VendB          |MoreCash            |   10.836|
-VendB          |Seven_segment_out<0>|   17.754|
-VendB          |Seven_segment_out<1>|   18.175|
-VendB          |Seven_segment_out<2>|   18.924|
-VendB          |Seven_segment_out<3>|   18.005|
-VendB          |Seven_segment_out<4>|   16.899|
-VendB          |Seven_segment_out<5>|   19.133|
-VendB          |Seven_segment_out<6>|   18.628|
-VendB          |SoldOut             |   13.457|
-VendC          |MoreCash            |    8.530|
-VendC          |Seven_segment_out<0>|   15.574|
-VendC          |Seven_segment_out<1>|   15.995|
-VendC          |Seven_segment_out<2>|   16.819|
-VendC          |Seven_segment_out<3>|   16.819|
-VendC          |Seven_segment_out<4>|   14.721|
-VendC          |Seven_segment_out<5>|   17.050|
-VendC          |Seven_segment_out<6>|   16.448|
-VendC          |SoldOut             |   11.277|
-VendD          |MoreCash            |    9.551|
-VendD          |Seven_segment_out<0>|   14.876|
-VendD          |Seven_segment_out<1>|   15.297|
-VendD          |Seven_segment_out<2>|   16.046|
-VendD          |Seven_segment_out<3>|   15.127|
-VendD          |Seven_segment_out<5>|   16.255|
-VendD          |Seven_segment_out<6>|   15.750|
-VendD          |SoldOut             |    9.517|
+Toggle_Hex1    |Seven_segment_out<0>|   13.932|
+Toggle_Hex1    |Seven_segment_out<1>|   13.904|
+Toggle_Hex1    |Seven_segment_out<2>|   15.027|
+Toggle_Hex1    |Seven_segment_out<3>|   13.831|
+Toggle_Hex1    |Seven_segment_out<4>|   12.561|
+Toggle_Hex1    |Seven_segment_out<5>|   12.707|
+Toggle_Hex1    |Seven_segment_out<6>|   13.982|
+Toggle_Hex2    |Seven_segment_out<0>|   14.269|
+Toggle_Hex2    |Seven_segment_out<1>|   14.241|
+Toggle_Hex2    |Seven_segment_out<2>|   15.364|
+Toggle_Hex2    |Seven_segment_out<3>|   14.168|
+Toggle_Hex2    |Seven_segment_out<4>|   13.005|
+Toggle_Hex2    |Seven_segment_out<5>|   12.409|
+Toggle_Hex2    |Seven_segment_out<6>|   13.895|
+VendA          |MoreCash            |   11.404|
+VendA          |Seven_segment_out<0>|   16.116|
+VendA          |Seven_segment_out<1>|   15.588|
+VendA          |Seven_segment_out<2>|   15.575|
+VendA          |Seven_segment_out<3>|   16.699|
+VendA          |Seven_segment_out<4>|   15.824|
+VendA          |Seven_segment_out<5>|   16.621|
+VendA          |Seven_segment_out<6>|   16.444|
+VendA          |SoldOut             |   11.030|
+VendB          |MoreCash            |   11.233|
+VendB          |Seven_segment_out<0>|   18.814|
+VendB          |Seven_segment_out<1>|   18.286|
+VendB          |Seven_segment_out<2>|   19.330|
+VendB          |Seven_segment_out<3>|   19.397|
+VendB          |Seven_segment_out<4>|   19.669|
+VendB          |Seven_segment_out<5>|   19.730|
+VendB          |Seven_segment_out<6>|   19.142|
+VendB          |SoldOut             |   13.184|
+VendC          |MoreCash            |    9.247|
+VendC          |Seven_segment_out<0>|   17.590|
+VendC          |Seven_segment_out<1>|   17.062|
+VendC          |Seven_segment_out<2>|   17.087|
+VendC          |Seven_segment_out<3>|   18.173|
+VendC          |Seven_segment_out<4>|   18.044|
+VendC          |Seven_segment_out<5>|   18.624|
+VendC          |Seven_segment_out<6>|   17.918|
+VendC          |SoldOut             |   12.281|
+VendD          |MoreCash            |    8.672|
+VendD          |Seven_segment_out<0>|   15.762|
+VendD          |Seven_segment_out<1>|   15.234|
+VendD          |Seven_segment_out<2>|   15.221|
+VendD          |Seven_segment_out<3>|   16.345|
+VendD          |Seven_segment_out<5>|   16.267|
+VendD          |Seven_segment_out<6>|   16.090|
+VendD          |SoldOut             |   10.966|
 ---------------+--------------------+---------+
 
 
-Analysis completed Tue Nov 24 22:19:50 2015 
+Analysis completed Tue Dec 01 11:42:56 2015 
 --------------------------------------------------------------------------------
 
 Trace Settings:

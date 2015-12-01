@@ -19,8 +19,8 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 --Declaration of the module's inputs and outputs
 entity Buff is port (
 clock: in std_logic;
-input: in integer range 0 to 5;
-bufferOut: out integer range 0 to 5
+input: in integer;
+bufferOut: out integer
 ); 
 end Buff;
 

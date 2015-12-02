@@ -3,13 +3,13 @@ Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
 --> Parameter TMPDIR set to xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 0.00 secs
+Total REAL time to Xst completion: 1.00 secs
 Total CPU time to Xst completion: 0.12 secs
  
 --> Parameter xsthdpdir set to xst
 
 
-Total REAL time to Xst completion: 0.00 secs
+Total REAL time to Xst completion: 1.00 secs
 Total CPU time to Xst completion: 0.12 secs
  
 --> Reading design: VendMachine.prj
@@ -130,14 +130,14 @@ Analyzing hierarchy for entity <Buff> in library <work> (architecture <behaviora
 *                            HDL Analysis                               *
 =========================================================================
 Analyzing Entity <VendMachine> in library <work> (Architecture <behavioral>).
-WARNING:Xst:751 - "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" line 136: Bad association for formal port 'bufferOut' of component 'Buff'.
 WARNING:Xst:751 - "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" line 137: Bad association for formal port 'bufferOut' of component 'Buff'.
 WARNING:Xst:751 - "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" line 138: Bad association for formal port 'bufferOut' of component 'Buff'.
 WARNING:Xst:751 - "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" line 139: Bad association for formal port 'bufferOut' of component 'Buff'.
 WARNING:Xst:751 - "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" line 140: Bad association for formal port 'bufferOut' of component 'Buff'.
 WARNING:Xst:751 - "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" line 141: Bad association for formal port 'bufferOut' of component 'Buff'.
 WARNING:Xst:751 - "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" line 142: Bad association for formal port 'bufferOut' of component 'Buff'.
-WARNING:Xst:819 - "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" line 523: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+WARNING:Xst:751 - "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" line 143: Bad association for formal port 'bufferOut' of component 'Buff'.
+WARNING:Xst:819 - "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" line 524: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
    <Dimei>, <Qi>
 Entity <VendMachine> analyzed. Unit <VendMachine> generated.
 
@@ -191,6 +191,7 @@ Synthesizing Unit <VendMachine>.
     Related source file is "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd".
 WARNING:Xst:647 - Input <Toggle_Hex3> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
 WARNING:Xst:646 - Signal <restock_temp> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <SLOWER_CLK> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
     Using one-hot encoding for signal <Cstate>.
 INFO:Xst:2117 - HDL ADVISOR - Mux Selector <Cstate> of Case statement line 0 was re-encoded using one-hot encoding. The case statement will be optimized (default statement optimization), but this optimization may lead to design initialization problems. To ensure the design works safely, you can:
    	- add an 'INIT' attribute on signal <Cstate> (optimization is then done without any risk)
@@ -206,28 +207,28 @@ INFO:Xst:2371 - HDL ADVISOR - Logic functions respectively driving the data and 
     Found 25-bit up counter for signal <CLK_DIVIDER>.
     Found 6-bit up counter for signal <Count>.
     Found 17-bit register for signal <Cstate>.
-    Found 7-bit comparator greatequal for signal <Cstate$cmp_ge0000> created at line 446.
-    Found 3-bit comparator less for signal <Cstate$cmp_lt0000> created at line 437.
-    Found 3-bit comparator less for signal <Cstate$cmp_lt0001> created at line 437.
-    Found 3-bit comparator less for signal <Cstate$cmp_lt0002> created at line 437.
-    Found 3-bit comparator less for signal <Cstate$cmp_lt0003> created at line 437.
+    Found 7-bit comparator greatequal for signal <Cstate$cmp_ge0000> created at line 447.
+    Found 3-bit comparator less for signal <Cstate$cmp_lt0000> created at line 438.
+    Found 3-bit comparator less for signal <Cstate$cmp_lt0001> created at line 438.
+    Found 3-bit comparator less for signal <Cstate$cmp_lt0002> created at line 438.
+    Found 3-bit comparator less for signal <Cstate$cmp_lt0003> created at line 438.
     Found 7-bit register for signal <Ct>.
-    Found 7-bit comparator less for signal <Ct$cmp_lt0000> created at line 397.
-    Found 7-bit subtractor for signal <Ct$share0000> created at line 151.
+    Found 7-bit comparator less for signal <Ct$cmp_lt0000> created at line 398.
+    Found 7-bit subtractor for signal <Ct$share0000> created at line 152.
     Found 3-bit register for signal <Di>.
     Found 4-bit register for signal <Dimei>.
     Found 4-bit register for signal <Ni>.
-    Found 3-bit comparator greater for signal <ProdD$cmp_gt0000> created at line 608.
+    Found 3-bit comparator greater for signal <ProdD$cmp_gt0000> created at line 609.
     Found 4-bit register for signal <Qi>.
-    Found 7-bit comparator greater for signal <ret_dime$cmp_gt0000> created at line 716.
-    Found 4-bit comparator greater for signal <ret_dime$cmp_gt0001> created at line 716.
-    Found 7-bit comparator greater for signal <ret_nick$cmp_gt0000> created at line 707.
-    Found 4-bit comparator greater for signal <ret_nick$cmp_gt0001> created at line 707.
-    Found 7-bit comparator greatequal for signal <ret_quart$cmp_ge0000> created at line 725.
-    Found 4-bit comparator greatequal for signal <ret_quart$cmp_ge0001> created at line 725.
-    Found 3-bit comparator greater for signal <SoldOut$cmp_gt0000> created at line 545.
-    Found 3-bit comparator greater for signal <SoldOut$cmp_gt0001> created at line 563.
-    Found 3-bit comparator greater for signal <SoldOut$cmp_gt0002> created at line 584.
+    Found 7-bit comparator greater for signal <ret_dime$cmp_gt0000> created at line 717.
+    Found 4-bit comparator greater for signal <ret_dime$cmp_gt0001> created at line 717.
+    Found 7-bit comparator greater for signal <ret_nick$cmp_gt0000> created at line 708.
+    Found 4-bit comparator greater for signal <ret_nick$cmp_gt0001> created at line 708.
+    Found 7-bit comparator greatequal for signal <ret_quart$cmp_ge0000> created at line 726.
+    Found 4-bit comparator greatequal for signal <ret_quart$cmp_ge0001> created at line 726.
+    Found 3-bit comparator greater for signal <SoldOut$cmp_gt0000> created at line 546.
+    Found 3-bit comparator greater for signal <SoldOut$cmp_gt0001> created at line 564.
+    Found 3-bit comparator greater for signal <SoldOut$cmp_gt0002> created at line 585.
     Found 1-bit register for signal <timeout>.
     Summary:
 	inferred   2 Counter(s).
@@ -322,7 +323,6 @@ Optimizing unit <VendMachine> ...
 Mapping all equations...
 Building and optimizing final netlist ...
 Found area constraint ratio of 100 (+ 5) on block VendMachine, actual ratio is 36.
-FlipFlop Ct_0 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -330,8 +330,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 86
- Flip-Flops                                            : 86
+# Registers                                            : 85
+ Flip-Flops                                            : 85
 
 =========================================================================
 
@@ -360,28 +360,28 @@ Design Statistics
 # IOs                              : 33
 
 Cell Usage :
-# BELS                             : 727
+# BELS                             : 713
 #      GND                         : 1
 #      INV                         : 8
 #      LUT1                        : 23
-#      LUT2                        : 66
-#      LUT2_D                      : 6
-#      LUT2_L                      : 9
-#      LUT3                        : 90
-#      LUT3_D                      : 10
-#      LUT3_L                      : 9
-#      LUT4                        : 321
-#      LUT4_D                      : 30
-#      LUT4_L                      : 48
+#      LUT2                        : 61
+#      LUT2_D                      : 7
+#      LUT2_L                      : 4
+#      LUT3                        : 103
+#      LUT3_D                      : 6
+#      LUT3_L                      : 5
+#      LUT4                        : 325
+#      LUT4_D                      : 26
+#      LUT4_L                      : 44
 #      MUXCY                       : 29
-#      MUXF5                       : 45
+#      MUXF5                       : 39
 #      VCC                         : 1
 #      XORCY                       : 31
-# FlipFlops/Latches                : 88
+# FlipFlops/Latches                : 87
 #      FD                          : 24
 #      FDCE                        : 6
 #      FDCP                        : 17
-#      FDE                         : 8
+#      FDE                         : 7
 #      FDR                         : 7
 #      FDRE                        : 10
 #      FDSE                        : 14
@@ -400,9 +400,9 @@ Device utilization summary:
 
 Selected Device : 3s100ecp132-4 
 
- Number of Slices:                      335  out of    960    34%  
- Number of Slice Flip Flops:             87  out of   1920     4%  
- Number of 4 input LUTs:                620  out of   1920    32%  
+ Number of Slices:                      326  out of    960    33%  
+ Number of Slice Flip Flops:             86  out of   1920     4%  
+ Number of 4 input LUTs:                612  out of   1920    31%  
  Number of IOs:                          33
  Number of bonded IOBs:                  32  out of     83    38%  
     IOB Flip Flops:                       1
@@ -429,7 +429,7 @@ Clock Information:
 -----------------------------------+------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)  | Load  |
 -----------------------------------+------------------------+-------+
-CLK_DIVIDER_231                    | BUFG                   | 62    |
+CLK_DIVIDER_231                    | BUFG                   | 61    |
 ProdA_not0001(ProdA_not0001:O)     | NONE(*)(ProdA)         | 1     |
 Cstate_8                           | NONE(LockOut)          | 1     |
 Clock                              | BUFGP                  | 24    |
@@ -445,13 +445,12 @@ Asynchronous Control Signals Information:
 Control Signal                           | Buffer(FF name)        | Load  |
 -----------------------------------------+------------------------+-------+
 Cstate_10__and0000(XST_GND:G)            | NONE(Cstate_1)         | 15    |
-Cstate_16__or0000(Cstate_16__or00001:O)  | NONE(Cstate_1)         | 14    |
+Cstate_16__or0000(Cstate_16__or00001:O)  | NONE(Cstate_1)         | 15    |
 Dime                                     | IBUF                   | 2     |
 Nickel                                   | IBUF                   | 2     |
 Quarter                                  | IBUF                   | 2     |
 timeout(timeout:Q)                       | NONE(Cstate_0)         | 2     |
 Cstate_12__and0000(Cstate_12__and00001:O)| NONE(Cstate_12)        | 1     |
-Cstate_3__or0000(Cstate_3__or00001:O)    | NONE(Cstate_3)         | 1     |
 reset                                    | IBUF                   | 1     |
 -----------------------------------------+------------------------+-------+
 
@@ -459,10 +458,10 @@ Timing Summary:
 ---------------
 Speed Grade: -4
 
-   Minimum period: 12.914ns (Maximum Frequency: 77.435MHz)
-   Minimum input arrival time before clock: 11.071ns
-   Maximum output required time after clock: 17.177ns
-   Maximum combinational path delay: 18.228ns
+   Minimum period: 13.652ns (Maximum Frequency: 73.249MHz)
+   Minimum input arrival time before clock: 11.684ns
+   Maximum output required time after clock: 17.712ns
+   Maximum combinational path delay: 18.717ns
 
 Timing Detail:
 --------------
@@ -470,28 +469,28 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'CLK_DIVIDER_231'
-  Clock period: 12.914ns (frequency: 77.435MHz)
-  Total number of paths / destination ports: 4862 / 127
+  Clock period: 13.652ns (frequency: 73.249MHz)
+  Total number of paths / destination ports: 4714 / 125
 -------------------------------------------------------------------------
-Delay:               6.457ns (Levels of Logic = 4)
+Delay:               6.826ns (Levels of Logic = 4)
   Source:            dime_deb/cnt_0 (FF)
-  Destination:       Ct_3 (FF)
+  Destination:       Cstate_3 (FF)
   Source Clock:      CLK_DIVIDER_231 falling
   Destination Clock: CLK_DIVIDER_231 rising
 
-  Data Path: dime_deb/cnt_0 to Ct_3
+  Data Path: dime_deb/cnt_0 to Cstate_3
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q             9   0.591   0.855  dime_deb/cnt_0 (dime_deb/cnt_0)
-     LUT3_D:I2->O         11   0.704   0.937  dime_deb/pulse_and00001_1 (dime_deb/pulse_and00001)
-     LUT4:I3->O            2   0.704   0.451  Ct_mux0039<3>8 (N106)
-     LUT4:I3->O            1   0.704   0.499  Ct_mux0039<3>74 (Ct_mux0039<3>74)
-     LUT4:I1->O            1   0.704   0.000  Ct_mux0039<3>140 (Ct_mux0039<3>)
-     FDE:D                     0.308          Ct_3
+     FDCE:C->Q            11   0.591   0.968  dime_deb/cnt_0 (dime_deb/cnt_0)
+     LUT3_D:I2->O         25   0.704   1.295  dime_deb/pulse_and00001 (Dp)
+     LUT4:I2->O            1   0.704   0.424  Cstate_mux0057<13>39 (Cstate_mux0057<13>39)
+     LUT4:I3->O            1   0.704   0.424  Cstate_mux0057<13>155 (Cstate_mux0057<13>155)
+     LUT4:I3->O            1   0.704   0.000  Cstate_mux0057<13>195 (Cstate_mux0057<13>)
+     FDCP:D                    0.308          Cstate_3
     ----------------------------------------
-    Total                      6.457ns (3.715ns logic, 2.742ns route)
-                                       (57.5% logic, 42.5% route)
+    Total                      6.826ns (3.715ns logic, 3.111ns route)
+                                       (54.4% logic, 45.6% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'Clock'
@@ -540,35 +539,35 @@ Delay:               4.705ns (Levels of Logic = 24)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'CLK_DIVIDER_231'
-  Total number of paths / destination ports: 906 / 87
+  Total number of paths / destination ports: 835 / 85
 -------------------------------------------------------------------------
-Offset:              11.071ns (Levels of Logic = 8)
-  Source:            VendD (PAD)
-  Destination:       Ct_3 (FF)
+Offset:              11.684ns (Levels of Logic = 8)
+  Source:            VendB (PAD)
+  Destination:       Ni_0 (FF)
   Destination Clock: CLK_DIVIDER_231 rising
 
-  Data Path: VendD to Ct_3
+  Data Path: VendB to Ni_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O             4   1.218   0.762  VendD_IBUF (VendD_IBUF)
-     LUT4:I0->O           18   0.704   1.147  ProdD_and00001 (ProdD_and0000)
-     LUT2:I1->O            1   0.704   0.424  Ct_mux0039<3>7_SW0 (N12)
-     LUT4_D:I3->O         17   0.704   1.130  Ct_mux0039<3>7 (N104)
-     LUT2:I1->O            1   0.704   0.595  Cstate_mux0057<10>23_SW0 (N101)
-     LUT4:I0->O            1   0.704   0.455  Ct_mux0039<3>127 (Ct_mux0039<3>127)
-     LUT4_L:I2->LO         1   0.704   0.104  Ct_mux0039<3>130 (Ct_mux0039<3>130)
-     LUT4:I3->O            1   0.704   0.000  Ct_mux0039<3>140 (Ct_mux0039<3>)
-     FDE:D                     0.308          Ct_3
+     IBUF:I->O            22   1.218   1.339  VendB_IBUF (VendB_IBUF)
+     LUT4:I0->O           23   0.704   1.281  ProdA_not0001_SW0 (SoldOut_and0002)
+     LUT2:I1->O            4   0.704   0.591  Cstate_mux0057<15>231 (Cstate_mux0057<15>122)
+     LUT4_D:I3->LO         1   0.704   0.179  ProdC_mux00041 (N335)
+     LUT2:I1->O            2   0.704   0.451  full_seven_segment_1_mux000421 (ProdC)
+     LUT4_D:I3->LO         1   0.704   0.104  Ni_not000111 (N330)
+     LUT4:I3->O            2   0.704   0.451  Ni_not000121 (N248)
+     LUT4:I3->O            4   0.704   0.587  Ni_not00011 (Ni_not0001)
+     FDRE:CE                   0.555          Ni_0
     ----------------------------------------
-    Total                     11.071ns (6.454ns logic, 4.617ns route)
-                                       (58.3% logic, 41.7% route)
+    Total                     11.684ns (6.701ns logic, 4.983ns route)
+                                       (57.4% logic, 42.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'ProdA_not0001'
   Total number of paths / destination ports: 1 / 1
 -------------------------------------------------------------------------
-Offset:              5.547ns (Levels of Logic = 3)
+Offset:              5.550ns (Levels of Logic = 3)
   Source:            VendA (PAD)
   Destination:       ProdA (LATCH)
   Destination Clock: ProdA_not0001 falling
@@ -577,41 +576,42 @@ Offset:              5.547ns (Levels of Logic = 3)
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            35   1.218   1.438  VendA_IBUF (VendA_IBUF)
+     IBUF:I->O            43   1.218   1.441  VendA_IBUF (VendA_IBUF)
      LUT4:I0->O           14   0.704   1.175  SoldOut_and00001 (SoldOut_and0000)
      LUT2:I0->O            1   0.704   0.000  ProdA_mux00031 (ProdA_mux0003)
      LD:D                      0.308          ProdA
     ----------------------------------------
-    Total                      5.547ns (2.934ns logic, 2.613ns route)
+    Total                      5.550ns (2.934ns logic, 2.616ns route)
                                        (52.9% logic, 47.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'CLK_DIVIDER_231'
-  Total number of paths / destination ports: 1406 / 12
+  Total number of paths / destination ports: 1441 / 12
 -------------------------------------------------------------------------
-Offset:              17.177ns (Levels of Logic = 11)
+Offset:              17.712ns (Levels of Logic = 12)
   Source:            Bi_2 (FF)
-  Destination:       Seven_segment_out<1> (PAD)
+  Destination:       Seven_segment_out<6> (PAD)
   Source Clock:      CLK_DIVIDER_231 rising
 
-  Data Path: Bi_2 to Seven_segment_out<1>
+  Data Path: Bi_2 to Seven_segment_out<6>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDSE:C->Q            11   0.591   1.012  Bi_2 (Bi_2)
-     LUT4:I1->O           18   0.704   1.103  ProdA_not0001_SW0 (SoldOut_and0002)
-     LUT3:I2->O           10   0.704   0.917  Cstate_mux0057<12>311 (Cstate_mux0057<16>196)
-     LUT4_D:I2->O         12   0.704   0.965  ProdD_mux000630 (ProdD_mux0006)
-     LUT4:I3->O            1   0.704   0.424  full_seven_segment_15_mux00041_SW1 (N278)
-     LUT4:I3->O            2   0.704   0.482  full_seven_segment_15_mux00041 (N77)
-     LUT4:I2->O            1   0.704   0.424  display/Mmux_SS7_31_SW0_SW0_SW0 (N322)
-     LUT4:I3->O            1   0.704   0.455  display/Mmux_SS7_31_SW0_SW0 (N312)
-     LUT4:I2->O            1   0.704   0.455  display/Mmux_SS7_31_SW0 (N224)
-     LUT4:I2->O            1   0.704   0.000  display/Mmux_SS7_31 (display/Mmux_SS7_31)
-     MUXF5:I1->O           1   0.321   0.420  display/Mmux_SS7_2_f5_0 (Seven_segment_out_1_OBUF)
-     OBUF:I->O                 3.272          Seven_segment_out_1_OBUF (Seven_segment_out<1>)
+     FDSE:C->Q            10   0.591   0.961  Bi_2 (Bi_2)
+     LUT4:I1->O           23   0.704   1.281  ProdA_not0001_SW0 (SoldOut_and0002)
+     LUT2:I1->O            4   0.704   0.591  Cstate_mux0057<15>231 (Cstate_mux0057<15>122)
+     LUT4_D:I3->O         15   0.704   1.096  ProdC_mux00041 (ProdC_mux0004)
+     LUT4:I1->O            2   0.704   0.526  full_seven_segment_13_mux0004110_SW0 (N288)
+     LUT3:I1->O            1   0.704   0.000  full_seven_segment_13_mux0004134_SW01 (full_seven_segment_13_mux0004134_SW0)
+     MUXF5:I1->O           1   0.321   0.424  full_seven_segment_13_mux0004134_SW0_f5 (N228)
+     LUT4:I3->O            2   0.704   0.451  full_seven_segment_13_mux0004134 (N23)
+     LUT4:I3->O            2   0.704   0.622  full_seven_segment_13_mux00042 (N54)
+     LUT4:I0->O            1   0.704   0.499  full_seven_segment_20_mux000494 (full_seven_segment<20>)
+     LUT3:I1->O            1   0.704   0.000  display/Mmux_SS7_36 (display/Mmux_SS7_36)
+     MUXF5:I1->O           1   0.321   0.420  display/Mmux_SS7_2_f5_5 (Seven_segment_out_6_OBUF)
+     OBUF:I->O                 3.272          Seven_segment_out_6_OBUF (Seven_segment_out<6>)
     ----------------------------------------
-    Total                     17.177ns (10.520ns logic, 6.657ns route)
+    Total                     17.712ns (10.841ns logic, 6.871ns route)
                                        (61.2% logic, 38.8% route)
 
 =========================================================================
@@ -647,77 +647,79 @@ Offset:              6.568ns (Levels of Logic = 3)
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      FD:C->Q              19   0.591   1.260  CLK_DIVIDER_18 (CLK_DIVIDER_18)
-     LUT3:I0->O            1   0.704   0.000  display/Mmux_SS7_4 (display/Mmux_SS7_4)
-     MUXF5:I0->O           1   0.321   0.420  display/Mmux_SS7_2_f5 (Seven_segment_out_0_OBUF)
-     OBUF:I->O                 3.272          Seven_segment_out_0_OBUF (Seven_segment_out<0>)
+     LUT3:I0->O            1   0.704   0.000  display/Mmux_SS7_41 (display/Mmux_SS7_41)
+     MUXF5:I0->O           1   0.321   0.420  display/Mmux_SS7_2_f5_0 (Seven_segment_out_1_OBUF)
+     OBUF:I->O                 3.272          Seven_segment_out_1_OBUF (Seven_segment_out<1>)
     ----------------------------------------
     Total                      6.568ns (4.888ns logic, 1.680ns route)
                                        (74.4% logic, 25.6% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'ProdA_not0001'
-  Total number of paths / destination ports: 30 / 7
+  Total number of paths / destination ports: 43 / 7
 -------------------------------------------------------------------------
-Offset:              10.596ns (Levels of Logic = 7)
+Offset:              11.963ns (Levels of Logic = 8)
   Source:            ProdA (LATCH)
-  Destination:       Seven_segment_out<5> (PAD)
+  Destination:       Seven_segment_out<6> (PAD)
   Source Clock:      ProdA_not0001 falling
 
-  Data Path: ProdA to Seven_segment_out<5>
+  Data Path: ProdA to Seven_segment_out<6>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     LD:G->Q              28   0.676   1.296  ProdA (ProdA)
-     LUT4:I2->O            1   0.704   0.424  full_seven_segment_12_mux000456 (full_seven_segment_12_mux000456)
-     LUT4:I3->O            1   0.704   0.000  full_seven_segment_12_mux000474_SW1_F (N348)
-     MUXF5:I0->O           1   0.321   0.595  full_seven_segment_12_mux000474_SW1 (N306)
-     LUT4:I0->O            1   0.704   0.455  full_seven_segment_12_mux000474 (full_seven_segment<12>)
-     LUT3:I2->O            1   0.704   0.000  display/Mmux_SS7_45 (display/Mmux_SS7_45)
-     MUXF5:I0->O           1   0.321   0.420  display/Mmux_SS7_2_f5_4 (Seven_segment_out_5_OBUF)
-     OBUF:I->O                 3.272          Seven_segment_out_5_OBUF (Seven_segment_out<5>)
+     LD:G->Q              32   0.676   1.437  ProdA (ProdA)
+     LUT3:I0->O            1   0.704   0.000  full_seven_segment_13_mux0004134_SW01 (full_seven_segment_13_mux0004134_SW0)
+     MUXF5:I1->O           1   0.321   0.424  full_seven_segment_13_mux0004134_SW0_f5 (N228)
+     LUT4:I3->O            2   0.704   0.451  full_seven_segment_13_mux0004134 (N23)
+     LUT4:I3->O            2   0.704   0.622  full_seven_segment_13_mux00042 (N54)
+     LUT4:I0->O            1   0.704   0.499  full_seven_segment_20_mux000494 (full_seven_segment<20>)
+     LUT3:I1->O            1   0.704   0.000  display/Mmux_SS7_36 (display/Mmux_SS7_36)
+     MUXF5:I1->O           1   0.321   0.420  display/Mmux_SS7_2_f5_5 (Seven_segment_out_6_OBUF)
+     OBUF:I->O                 3.272          Seven_segment_out_6_OBUF (Seven_segment_out<6>)
     ----------------------------------------
-    Total                     10.596ns (7.406ns logic, 3.190ns route)
-                                       (69.9% logic, 30.1% route)
+    Total                     11.963ns (8.110ns logic, 3.853ns route)
+                                       (67.8% logic, 32.2% route)
 
 =========================================================================
 Timing constraint: Default path analysis
-  Total number of paths / destination ports: 430 / 9
+  Total number of paths / destination ports: 485 / 9
 -------------------------------------------------------------------------
-Delay:               18.228ns (Levels of Logic = 12)
+Delay:               18.717ns (Levels of Logic = 13)
   Source:            VendB (PAD)
-  Destination:       Seven_segment_out<1> (PAD)
+  Destination:       Seven_segment_out<6> (PAD)
 
-  Data Path: VendB to Seven_segment_out<1>
+  Data Path: VendB to Seven_segment_out<6>
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O            27   1.218   1.436  VendB_IBUF (VendB_IBUF)
-     LUT4:I0->O           18   0.704   1.103  ProdA_not0001_SW0 (SoldOut_and0002)
-     LUT3:I2->O           10   0.704   0.917  Cstate_mux0057<12>311 (Cstate_mux0057<16>196)
-     LUT4_D:I2->O         12   0.704   0.965  ProdD_mux000630 (ProdD_mux0006)
-     LUT4:I3->O            1   0.704   0.424  full_seven_segment_15_mux00041_SW1 (N278)
-     LUT4:I3->O            2   0.704   0.482  full_seven_segment_15_mux00041 (N77)
-     LUT4:I2->O            1   0.704   0.424  display/Mmux_SS7_31_SW0_SW0_SW0 (N322)
-     LUT4:I3->O            1   0.704   0.455  display/Mmux_SS7_31_SW0_SW0 (N312)
-     LUT4:I2->O            1   0.704   0.455  display/Mmux_SS7_31_SW0 (N224)
-     LUT4:I2->O            1   0.704   0.000  display/Mmux_SS7_31 (display/Mmux_SS7_31)
-     MUXF5:I1->O           1   0.321   0.420  display/Mmux_SS7_2_f5_0 (Seven_segment_out_1_OBUF)
-     OBUF:I->O                 3.272          Seven_segment_out_1_OBUF (Seven_segment_out<1>)
+     IBUF:I->O            22   1.218   1.339  VendB_IBUF (VendB_IBUF)
+     LUT4:I0->O           23   0.704   1.281  ProdA_not0001_SW0 (SoldOut_and0002)
+     LUT2:I1->O            4   0.704   0.591  Cstate_mux0057<15>231 (Cstate_mux0057<15>122)
+     LUT4_D:I3->O         15   0.704   1.096  ProdC_mux00041 (ProdC_mux0004)
+     LUT4:I1->O            2   0.704   0.526  full_seven_segment_13_mux0004110_SW0 (N288)
+     LUT3:I1->O            1   0.704   0.000  full_seven_segment_13_mux0004134_SW01 (full_seven_segment_13_mux0004134_SW0)
+     MUXF5:I1->O           1   0.321   0.424  full_seven_segment_13_mux0004134_SW0_f5 (N228)
+     LUT4:I3->O            2   0.704   0.451  full_seven_segment_13_mux0004134 (N23)
+     LUT4:I3->O            2   0.704   0.622  full_seven_segment_13_mux00042 (N54)
+     LUT4:I0->O            1   0.704   0.499  full_seven_segment_20_mux000494 (full_seven_segment<20>)
+     LUT3:I1->O            1   0.704   0.000  display/Mmux_SS7_36 (display/Mmux_SS7_36)
+     MUXF5:I1->O           1   0.321   0.420  display/Mmux_SS7_2_f5_5 (Seven_segment_out_6_OBUF)
+     OBUF:I->O                 3.272          Seven_segment_out_6_OBUF (Seven_segment_out<6>)
     ----------------------------------------
-    Total                     18.228ns (11.147ns logic, 7.081ns route)
-                                       (61.2% logic, 38.8% route)
+    Total                     18.717ns (11.468ns logic, 7.249ns route)
+                                       (61.3% logic, 38.7% route)
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 8.00 secs
-Total CPU time to Xst completion: 8.53 secs
+Total REAL time to Xst completion: 9.00 secs
+Total CPU time to Xst completion: 8.24 secs
  
 --> 
 
-Total memory usage is 256904 kilobytes
+Total memory usage is 256712 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   15 (   0 filtered)
+Number of warnings :   16 (   0 filtered)
 Number of infos    :    7 (   0 filtered)
 

@@ -99,7 +99,7 @@ signal Ai,Bi,Ci,Di: integer range 0 to 5 :=5; -- Variables to track the inventor
 signal Ni,Dimei,Qi: integer range 0 to 10 :=10;
 signal Al,Bl,Cl,Dl: integer range 0 to 5 :=5; -- Buffer signals to track inventory
 signal Nl,Dimel,Ql: integer range 0 to 10 :=10;
-signal SLOW_CLK: std_logic; -- Slow clock to work the seven segment
+signal SLOW_CLK, SLOWER_CLK: std_logic; -- Slow clock to work the seven segment
 signal ret_nick, ret_dime, ret_quart: std_logic;  -- Buffer signal for returning coins
 signal CLK_DIVIDER: std_logic_vector(24 downto 0); -- Clock divider for slow clock
 signal full_seven_segment: STD_LOGIC_vector ( 27 downto 0); -- A vector that can hold all the seven segment values
@@ -120,6 +120,7 @@ begin
         CLK_DIVIDER <= CLK_DIVIDER + 1;
     end if;
     SLOW_CLK <= CLK_DIVIDER(23); --21
+	 SLOWER_CLK <= CLK_DIVIDER(24);
 	 Clock_out <= SLOW_CLK;
 end process;
 
@@ -562,7 +563,7 @@ begin
 			elsif (VendA = '1' and Ai = 0) then -- Soldout 
 				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; MoreCash <= '0';
 			elsif (VendB = '1' and Bi > 0) then -- vend B
-				ProdB <= '1'; Soldout <= '0';  ProdB <= '0'; MoreCash <= '0';
+				ProdB <= '1'; Soldout <= '0';  MoreCash <= '0';
 			elsif (VendB = '1' and Bi = 0) then -- Soldout
 				Soldout <= '1'; ProdA <= '0'; ProdB <= '0'; MoreCash <= '0';
 			elsif (VendC = '1' or VendD = '1') then -- Need money
@@ -798,7 +799,7 @@ begin
 		end case;
 		end process;
 		
-sseg: Process(Dimei, Qi, Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,ProdA, ProdB, ProdC, ProdD, Toggle_Hex1, Toggle_Hex2, Ai, Bi, Ci, Di, Ct, Ni,SLOW_CLK)
+sseg: Process(Dimei, Qi, Cstate,Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,ProdA, ProdB, ProdC, ProdD, Toggle_Hex1, Toggle_Hex2, Ai, Bi, Ci, Di, Ct, Ni,SLOWER_CLK)
 begin
 		if (Toggle_Hex1 = '1' and Toggle_Hex2 = '0') then
 			Case Ai is

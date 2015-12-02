@@ -1,8 +1,8 @@
-EN seven_segment NULL "C:/Users/Spencer Offenberger/implementation_vending_machine/seven_segment1.vhd" sub00/vhpl02 1449031347
-AR buff behavioral "C:/Users/Spencer Offenberger/implementation_vending_machine/buff.vhd" sub00/vhpl05 1449031350
-EN debounce NULL "C:/Users/Spencer Offenberger/implementation_vending_machine/debounce.vhd" sub00/vhpl00 1449031345
-AR vendmachine behavioral "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" sub00/vhpl07 1449031352
-EN buff NULL "C:/Users/Spencer Offenberger/implementation_vending_machine/buff.vhd" sub00/vhpl04 1449031349
-AR debounce clean_pulse "C:/Users/Spencer Offenberger/implementation_vending_machine/debounce.vhd" sub00/vhpl01 1449031346
-AR seven_segment behavioral "C:/Users/Spencer Offenberger/implementation_vending_machine/seven_segment1.vhd" sub00/vhpl03 1449031348
-EN vendmachine NULL "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" sub00/vhpl06 1449031351
+EN seven_segment NULL "C:/Users/Spencer Offenberger/implementation_vending_machine/seven_segment1.vhd" sub00/vhpl02 1449032353
+AR buff behavioral "C:/Users/Spencer Offenberger/implementation_vending_machine/buff.vhd" sub00/vhpl05 1449032356
+EN debounce NULL "C:/Users/Spencer Offenberger/implementation_vending_machine/debounce.vhd" sub00/vhpl00 1449032351
+AR vendmachine behavioral "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" sub00/vhpl07 1449032358
+EN buff NULL "C:/Users/Spencer Offenberger/implementation_vending_machine/buff.vhd" sub00/vhpl04 1449032355
+AR debounce clean_pulse "C:/Users/Spencer Offenberger/implementation_vending_machine/debounce.vhd" sub00/vhpl01 1449032352
+AR seven_segment behavioral "C:/Users/Spencer Offenberger/implementation_vending_machine/seven_segment1.vhd" sub00/vhpl03 1449032354
+EN vendmachine NULL "C:/Users/Spencer Offenberger/implementation_vending_machine/vendmach.vhd" sub00/vhpl06 1449032357

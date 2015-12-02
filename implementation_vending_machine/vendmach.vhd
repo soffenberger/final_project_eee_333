@@ -1072,8 +1072,8 @@ begin
 	end if;
 end process;
 	
-update_inventory: process(SLOW_CLK,Cstate, prodA, prodB, prodC, prodD, reset, ret_nick, ret_dime, ret_quart, Al, Bl, Cl, Dl, Dimel, Nl, Ql) begin
-		if SLOW_CLK'event and SLOW_CLK = '1' then
+update_inventory: process(SLOWER_CLK,Cstate, prodA, prodB, prodC, prodD, reset, ret_nick, ret_dime, ret_quart, Al, Bl, Cl, Dl, Dimel, Nl, Ql) begin
+		if SLOWER_CLK'event and SLOWER_CLK = '1' then
 		if Cstate = S14 then
 			Ai <= five_cons;
 			Bi <= five_cons;

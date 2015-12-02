@@ -125,10 +125,10 @@ begin
 end process;
 
 -- Debounce the user button inputs
-nick_deb: DEBOUNCE PORT MAP (SLOW_CLK, Nickel, Np);
-restock_deb: DEBOUNCE PORT MAP (SLOW_CLK, Restock, restock_temp);
-quart_deb: DEBOUNCE PORT MAP (SLOW_CLK, Quarter, Qp);
-dime_deb: DEBOUNCE PORT MAP (SLOW_CLK, Dime, Dp);
+nick_deb: DEBOUNCE PORT MAP (SLOWER_CLK, Nickel, Np);
+restock_deb: DEBOUNCE PORT MAP (SLOWER_CLK, Restock, restock_temp);
+quart_deb: DEBOUNCE PORT MAP (SLOWER_CLK, Quarter, Qp);
+dime_deb: DEBOUNCE PORT MAP (SLOWER_CLK, Dime, Dp);
 
 --Seven segment outputs the values in full_seven_segment to corresponding display
 display: seven_segment PORT MAP (Clock, full_seven_segment, AN, Seven_segment_out);
@@ -143,12 +143,12 @@ C_buff: Buff PORT MAP (Clock, Ci, Cl);
 D_buff: Buff PORT MAP (Clock, Di, Dl);
 
 -- This determines the next state in 
-Transitions: process (Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,SLOW_CLK, reset, timeout)
+Transitions: process (Np,Dp,Qp,VendA,VendB,VendC,VendD,Coin_Return,SLOWER_CLK, reset, timeout)
 begin
 	if timeout = '1' then Cstate <= S12;  --Give change back on timeout state
 	elsif reset = '1' then -- Reset allows for easier testing
 		Cstate <= S0;
-	elsif (SLOW_CLK'event and SLOW_CLK = '1') then
+	elsif (SLOWER_CLK'event and SLOWER_CLK = '1') then
 			case Cstate is
 				when S0 => 										-- Ct = 0 Cents
 					if Coin_Return = '1' then

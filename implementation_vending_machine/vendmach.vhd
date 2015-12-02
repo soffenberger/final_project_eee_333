@@ -93,7 +93,7 @@ end Component;
 type state is (S0,S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12,S13,S14,S15,S16); -- State for the FSM
 signal Cstate: state; 
 Signal Np, Dp, Qp, restock_temp: std_logic; -- Debounced values
-signal Ct: integer range 0 to 45; -- Credit the user has
+signal Ct: integer range 0 to 80; -- Credit the user has
 shared variable Count: integer range 0 to 45; -- Count for the timeout
 signal Ai,Bi,Ci,Di: integer range 0 to 5 :=5; -- Variables to track the inventory
 signal Ni,Dimei,Qi: integer range 0 to 10 :=10;
@@ -167,7 +167,7 @@ begin
 				
 				when S1 =>										-- Ct = 5 Cents
 					if Coin_Return = '1' then
-					Cstate <= S12;
+					Cstate <= S12; 
 					elsif Np = '1' then 
 					Cstate <= S2;
 					elsif Dp = '1' then
@@ -235,96 +235,156 @@ begin
 				when S5 =>										-- Ct = 25 Cents
 					if Coin_Return = '1' then
 					Cstate <= S12;
+					Ct <= 25;
 					elsif (VendA = '1' and Ai > 0) then
 					Cstate <= S16;
+					Ct <= 25;
 					elsif (VendB = '1' and Bi > 0) then
 					Cstate <= S2;
+					Ct <= 25;
 					elsif (VendC = '1' and Ci > 0) then
 					Cstate <= S1;
+					Ct <= 25;
 					elsif (VendD = '1' and Di > 0) then
 					Cstate <= S0;
-					elsif (Np = '1' or Dp = '1' or Qp = '1') then
+					Ct <= 25;
+					elsif (Np = '1') then
 					Cstate <= S12;
+					Ct <= 30;
+					elsif Dp = '1' then
+					Ct <= 35;
+					elsif Qp = '1' then
+					Cstate <= S12;
+					Ct <= 50;
 					else
 					Cstate <= S5;
-					end if;
 					Ct <= 25;
+					end if;
 					
 				when S6 =>										-- Ct = 30 Cents
 					if Coin_Return = '1' then
 					Cstate <= S12;
+					Ct <= 30;
 					elsif (VendA = '1' and Ai > 0) then
 					Cstate <= S16;
+					Ct <= 30;
 					elsif (VendB = '1' and Bi > 0) then
 					Cstate <= S16;
+					Ct <= 30;
 					elsif (VendC = '1' and Ci > 0) then
 					Cstate <= S2;
+					Ct <= 30;
 					elsif (VendD = '1' and Di > 0) then
 					Cstate <= S1;
-					elsif (Np = '1' or Dp = '1' or Qp = '1') then
+					Ct <= 30;
+					elsif (Np = '1') then
 					Cstate <= S12;
+					Ct <= 35;
+					elsif Dp = '1' then
+					Ct <= 40;
+					elsif Qp = '1' then
+					Cstate <= S12;
+					Ct <= 55;
 					else
 					Cstate <= S6;
-					end if;
 					Ct <= 30;
+					end if;
+					
 					
 				when S7 =>										-- Ct = 35 Cents
 					if Coin_Return = '1' then
 					Cstate <= S12;
+					Ct <= 35;
 					elsif (VendA = '1' and Ai > 0) then
 					Cstate <= S16;
+					Ct <= 35;
 					elsif (VendB = '1' and Bi > 0) then
 					Cstate <= S16;
+					Ct <= 35;
 					elsif (VendC = '1' and Ci > 0) then
 					Cstate <= S3;
+					Ct <= 35;
 					elsif (VendD = '1' and Di > 0) then
 					Cstate <= S2;
-					elsif (Np = '1' or Dp = '1' or Qp = '1') then
+					Ct <= 35;
+					elsif (Np = '1') then
 					Cstate <= S12;
+					Ct <= 40;
+					elsif Dp = '1' then
+					Ct <= 55;
+					elsif Qp = '1' then
+					Cstate <= S12;
+					Ct <= 60;
 					else
 					Cstate <= S7;
-					end if;
 					Ct <= 35;
+					end if;
+					
 					
 				when S8 =>										-- Ct = 40 Cents
 					if Coin_Return = '1' then
 					Cstate <= S12;
+					Ct <= 40;
 					elsif (VendA = '1' and Ai > 0) then
 					Cstate <= S16;
+					Ct <= 40;
 					elsif (VendB = '1' and Bi > 0) then
 					Cstate <= S16;
+					Ct <= 40;
 					elsif (VendC = '1' and Ci > 0) then
 					Cstate <= S16;
+					Ct <= 40;
 					elsif (VendD = '1' and Di > 0) then
 					Cstate <= S3;
-					elsif (Np = '1' or Dp = '1' or Qp = '1') then
+					Ct <= 40;
+					elsif (Np = '1') then
 					Cstate <= S12;
+					Ct <= 45;
+					elsif Dp = '1' then
+					Ct <= 50;
+					elsif Qp = '1' then
+					Cstate <= S12;
+					Ct <= 65;
 					else
 					Cstate <= S8;
-					end if;
 					Ct <= 40;
+					end if;
+					
 					
 				when S9 =>										-- Ct = 45 Cents
 					if Coin_Return = '1' then
 					Cstate <= S12;
+					Ct <= 45;
 					elsif (VendA = '1' and Ai > 0) then
 					Cstate <= S16;
+					Ct <= 45;
 					elsif (VendB = '1' and Bi > 0) then
 					Cstate <= S16;
+					Ct <= 45;
 					elsif (VendC = '1' and Ci > 0) then
 					Cstate <= S16;
+					Ct <= 45;
 					elsif (VendD = '1' and Di > 0) then
 					Cstate <= S4;
-					elsif (Np = '1' or Dp = '1' or Qp = '1') then
+					Ct <= 45;
+					elsif (Np = '1') then
 					Cstate <= S12;
+					Ct <= 50;
+					elsif Dp = '1' then
+					Ct <= 55;
+					elsif Qp = '1' then
+					Cstate <= S12;
+					Ct <= 70;
 					else
 					Cstate <= S9;
-					end if;
 					Ct <= 45;
+					end if;
+					
 				
 				when S10 =>										-- Return Nickel State
 					if (Ct > 0 and Ni = 0) then
 						Cstate <= S13;
+						Ct <= Ct - 5;
 					elsif (Ct = 0) then
 						Cstate <= S0;
 					else
@@ -336,6 +396,9 @@ begin
 				when S11 =>										-- Return Dime State
 					if (Ct < 10 or Dimei = 0) then
 						Cstate <= S10;
+					elsif (Di =0 and Ni = 0) then
+						Cstate <= S13;
+						Ct <= Ct - 10;
 					else
 						Cstate <= S15;
 						Ct <= Ct - 10;
@@ -343,10 +406,13 @@ begin
 					
 				
 				when S12 =>										-- Return Quarter State
-					if Ct >= 25 then
+					if (Ct >= 25) then
 						Ct <= Ct - 25;
 						Cstate <= S15;
-					else 
+					elsif Qi = 0 and Ni = 0 then
+						Cstate <= S13;
+						Ct <= 0;
+					else
 						Ct <= Ct;
 						Cstate <= S11;
 					end if;
@@ -376,7 +442,13 @@ begin
 
 					
 				when S15 =>										-- Blank State
-					Cstate <= S11;
+					if Ct >= 25 then
+						Cstate <= S12;
+					elsif Ct < 25 and Ct >= 10 then
+						Cstate <= S11;
+					else 
+						Cstate <= S10;
+					end if;
 				
 				when S16 =>
 					if Ct = 20 and VendA = '1' then
@@ -641,7 +713,7 @@ begin
 			Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			
 		when S11 =>
-			if (Ct > 5 and Di > 0) then
+			if (Ct > 5 and Dimei > 0) then
 				Ret_Dime <= '1';
 			else
 				Ret_Dime <= '0';
@@ -650,9 +722,13 @@ begin
 			ret_nick <= '0';  Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 			
 		when S12 =>
-			if Ct >= 25 then
+			if Ct >= 25 and Qi >= 1 then
 				MoreCash <= '0';
 				ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '1'; Soldout <= '0'; Lockout <= '0';
+				ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
+			elsif Ct >= 25 and Qi = 0 then
+				MoreCash <= '0';
+				ret_nick <= '0'; Ret_Dime <= '0'; Ret_Quart <= '0'; Soldout <= '0'; Lockout <= '0';
 				ProdA <= '0'; ProdB <= '0'; ProdC <= '0'; ProdD <= '0';
 			else 
 				MoreCash <= '0';
@@ -908,8 +984,20 @@ begin
 				elsif ProdD = '1' then
 					full_seven_segment <= "0100001010000101000010100001";
 				else 
-					full_seven_segment <= "0001001100011010011110001100";
+					full_seven_segment <= "1111111111111100100100100100";
 				end if;
+--			elsif Cstate = S6 then
+--				if ProdA = '1' then
+--					full_seven_segment <= "0001000000100000010000001000";
+--				elsif ProdB = '1' then
+--					full_seven_segment <= "0000011000001100000110000011";
+--				elsif ProdC = '1' then
+--					full_seven_segment <= "1000110100011010001101000110";
+--				elsif ProdD = '1' then
+--					full_seven_segment <= "0100001010000101000010100001";
+--				else 
+--					full_seven_segment <= "11111111111111100100100100100";
+--				end if;
 			elsif Cstate = S6 then
 				if ProdA = '1' then
 					full_seven_segment <= "0001000000100000010000001000";
@@ -920,19 +1008,7 @@ begin
 				elsif ProdD = '1' then
 					full_seven_segment <= "0100001010000101000010100001";
 				else 
-					full_seven_segment <= "0001001100011010011110001100";
-				end if;
-			elsif Cstate = S6 then
-				if ProdA = '1' then
-					full_seven_segment <= "0001000000100000010000001000";
-				elsif ProdB = '1' then
-					full_seven_segment <= "0000011000001100000110000011";
-				elsif ProdC = '1' then
-					full_seven_segment <= "1000110100011010001101000110";
-				elsif ProdD = '1' then
-					full_seven_segment <= "0100001010000101000010100001";
-				else 
-					full_seven_segment <= "0001001100011010011110001100";
+					full_seven_segment <= "1111111111111110000000110000";
 				end if;
 			elsif Cstate = S7 then
 				if ProdA = '1' then
@@ -944,7 +1020,7 @@ begin
 				elsif ProdD = '1' then
 					full_seven_segment <= "0100001010000101000010100001";
 				else 
-					full_seven_segment <= "0001001100011010011110001100";
+					full_seven_segment <= "1111111111111100100100110000";
 				end if;
 			elsif Cstate = S8 then
 				if ProdA = '1' then
@@ -956,7 +1032,7 @@ begin
 				elsif ProdD = '1' then
 					full_seven_segment <= "0100001010000101000010100001";
 				else 
-					full_seven_segment <= "0001001100011010011110001100";
+					full_seven_segment <= "1111111111111110000000110001";
 				end if;
 			elsif Cstate = S9 then
 				if ProdA = '1' then
@@ -968,7 +1044,7 @@ begin
 				elsif ProdD = '1' then
 					full_seven_segment <= "0100001010000101000010100001";
 				else 
-					full_seven_segment <= "0001001100011010011110001100";
+					full_seven_segment <= "1111111111111100100100110001";
 				end if;
 			elsif Cstate = S10 then
 				full_seven_segment <= "1111111000001000010011000110";
